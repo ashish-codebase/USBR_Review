@@ -10,9 +10,9 @@ from sklearn.metrics import r2_score
 import update_summaries
 from scipy.stats import linregress
 import sqlite3
+import glob
 
 selceted_site = ""
-
 
 @st.cache_data
 def get_parquet(parquet_file):
@@ -49,13 +49,14 @@ with st.sidebar:
     )
 
 script_path = os.getcwd()
-
+all_files = glob.glob(script_path + "**/**/*", recursive=True)
 st.markdown(
     "<h1 style='text-align: center; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
     unsafe_allow_html=True,
 )
 st.markdown("### Daily EC summary data from all online towers in CO, WY, NM & NE")
-st.text(f"The script is running from: {script_path}")
+for fil in all_files:
+    st.text(f"The script is running from: {(fil)}")
 
 st.text("")
 st.text("")
