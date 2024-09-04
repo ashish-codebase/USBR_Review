@@ -95,3 +95,15 @@ Time difference for HUC_12: 0:00:00.130578
 Time difference for GrantNE: 0:00:00.062008
 Time difference for Sutherland_Beans: 0:00:00.047116
 Time difference for Holbrook: 0:00:00.038532
+Time difference for LaPlata: 0:00:00.101005
+Time difference for NAPI: 0:00:00.106892
+Time difference for Olathe: 0:00:00.081523
+Time difference for Baggs: 0:00:00.072512
+Time difference for Cora: 0:00:00.093050
+Time difference for Cortez: 0:00:00.099014
+Time difference for Gunnison: 0:00:00.052006
+Time difference for Boulder: 0:00:00.030683
+Time difference for HUC_12: 0:00:00.121562
+Time difference for GrantNE: 0:00:00.056505
+Time difference for Sutherland_Beans: 0:00:00.035401
+Time difference for Holbrook: 0:00:00.029073
