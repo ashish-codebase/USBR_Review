@@ -317,7 +317,7 @@ def plot_closure(merged_df):
         eb_ratio_array = (components["LE_H"].values/components["RN_G"].values)
         eb_ratio_array = np.clip(eb_ratio_array,-0.5, 1.5)
         components["EB_Array"] = eb_ratio_array
-        eb_ratio = round((components["RN_G"].values.sum()/components["LE_H"].values.sum()),4)
+        eb_ratio = round((components["LE_H"].sum()/components["RN_G"].sum()),4)
         components = components[
             (components.index.hour >= 7) & (components.index.hour < 19)
         ]
@@ -342,7 +342,7 @@ def plot_closure(merged_df):
         plt.colorbar(scatter, ax=ax, label='EBC fraction')
         ax.plot(x_fit, y_fit, color="red", label="Regression line")
         # Create the equation string
-        equation = f"y = {slope:.2f}x + {intercept:.2f}\n $R^2$={round(r_value,4)}"
+        equation = f"y = {slope:.2f}x + {intercept:.2f}\n$R^2$={round(r_value,4)}"
         # Annotate the plot with the equation
         ax.text(
             0.1,
