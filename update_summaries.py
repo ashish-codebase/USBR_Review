@@ -73,7 +73,7 @@ sites = [
 def get_dataframe(filePath):
     tempPath = os.path.basename(filePath)
     year_int = int(tempPath.split("-")[0])
-    if year_int < datetime.datetime.today().year:
+    if year_int < datetime.datetime.today().year-1:
         return pd.DataFrame()
     # print(filePath)
     header = pd.read_csv(filePath, nrows=0, sep="\t").columns.tolist()
@@ -87,67 +87,52 @@ def get_dataframe(filePath):
     # merged_df = merged_df[(merged_df.index >= datetime.datetime(datetime.datetime.today().year,1,1 ))]
     return df
 
+def read_db(selected_site):
+    todaysDate = datetime.datetime.today().date()
+    main_path = r"D:\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
+    script_path = os.getcwd()
+    db_path = f"{script_path}/Data/{selected_site}/summaries/{selected_site}.db"
+    print(f"DB path string {db_path}")
+    mod_time_readable = datetime.datetime(month=1, day=1, year=1900).date()
+    if os.path.exists(db_path):
+        mod_time = os.path.getmtime(db_path)
+        mod_time_readable = datetime.datetime.fromtimestamp(mod_time).date()
 
+    if mod_time_readable < todaysDate:
+
+        file_pattern = f"{main_path}/{selected_site}/summaries/*Summary.txt"
+        print(f"Summary files search path: {file_pattern}")
+        print("")
+        print("")
+        print("")
+        summary_files = glob.glob(file_pattern, recursive=True)
+        if len(summary_files) == 0:
+            return
+        counter = 0
+        for filePath in summary_files:
+            if os.path.getsize(filePath) == 0:
+                continue
+            df = get_dataframe(filePath)
+            if df.shape[0] < 3:
+                return
+            if counter == 0:
+                merged_df = df
+                counter = 1
+            else:
+                merged_df = pd.concat([merged_df, df], axis=0)
+
+        merged_df.sort_index(inplace=True)
+        merged_df.drop_duplicates(inplace=True)
+        start_time = datetime.datetime.now()
+        conn = sqlite3.connect(db_path)
+        merged_df.to_sql(name="summary", con=conn, if_exists="replace", index=True)
+        # Close the connection
+        conn.close()
+        merged_df = pd.DataFrame()
+        
 def main():
-    lock = threading.Lock()
-    with lock:
-        todaysDate = datetime.datetime.today().date()
-        main_path = r"D:\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
-        script_path = os.getcwd()
-        for selected_site in sites:
-            db_path = f"{script_path}/Data/{selected_site}/summaries/{selected_site}.db"
-            print(f"DB path string {db_path}")
-            mod_time_readable = datetime.datetime(month=1, day=1, year=1900).date()
-            if os.path.exists(db_path):
-                mod_time = os.path.getmtime(db_path)
-                mod_time_readable = datetime.datetime.fromtimestamp(mod_time).date()
-
-            if mod_time_readable < todaysDate:
-
-                file_pattern = f"{main_path}/{selected_site}/summaries/*Summary.txt"
-                print(f"Summary files search path: {file_pattern}")
-                print("")
-                print("")
-                print("")
-                summary_files = glob.glob(file_pattern, recursive=True)
-                if len(summary_files) == 0:
-                    continue
-                counter = 0
-                for filePath in summary_files:
-                    if os.path.getsize(filePath) == 0:
-                        continue
-                    df = get_dataframe(filePath)
-                    if df.shape[0] < 3:
-                        continue
-                    if counter == 0:
-                        merged_df = df
-                        counter = 1
-                    else:
-                        merged_df = pd.concat([merged_df, df], axis=0)
-
-                merged_df = merged_df[
-                    (
-                        merged_df.index
-                        >= datetime.datetime(datetime.datetime.today().year, 1, 1)
-                    )
-                ]
-                merged_df.sort_index(inplace=True)
-                merged_df.drop_duplicates(inplace=True)
-                start_time = datetime.datetime.now()
-                conn = sqlite3.connect(db_path)
-                merged_df.to_sql(name="summary", con=conn, if_exists="replace", index=True)
-                # Close the connection
-                conn.close()
-                merged_df = pd.DataFrame()
-
-                # delta = datetime.datetime.now() - start_time
-                # performance = f"Time difference for {selected_site}: {delta}"
-
-                # with open("performance.txt", "a") as file:
-                #     print(performance)
-                #     # Write a line to the file
-                #     file.write(performance + "\n")
-
+    for selected_site in sites:
+        read_db(selected_site)
 
 if __name__ == "__main__":
     main()

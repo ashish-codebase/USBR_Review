@@ -32,7 +32,7 @@ def get_db(sqlite_file):
 
 
 plot_shape = (18, 3)
-# update_summaries.main()
+update_summaries.main()
 st.set_page_config(
     page_title="Daily EC data monitor",
     layout="wide",
@@ -45,7 +45,7 @@ with st.sidebar:
     st.title("Navigation")
     selceted_site = st.radio("Select EC site:", sites)
     days_limit = st.number_input(
-        "Enter days to show:", step=7, min_value=1, max_value=366, value=14
+        "Enter days to show:", step=7, min_value=1, value=14
     )
 
 script_path = os.getcwd()
@@ -55,8 +55,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 st.markdown("### Daily EC summary data from all online towers in CO, WY, NM & NE")
-# for local_file in all_files:
-#     st.text(f"The script is running from: {(local_file)}")
 
 st.text("")
 st.text("")
@@ -312,8 +310,9 @@ def plot_closure(merged_df):
     fig, ax = plt.subplots(figsize=(9, 9))
     try:
         components = pd.DataFrame()
-        Yvals = merged_df["RN_1_1_1"] - merged_df["SHF_1_1_1"]
-        Xvals = merged_df["LE"] + merged_df["H"]
+        Yvals = clean_column(merged_df,"RN_1_1_1") - clean_column(merged_df,"SHF_1_1_1")
+        Xvals = clean_column(merged_df,"LE") + clean_column(merged_df,"H")
+        eb_ratio = round((Xvals.sum()/Yvals.sum()),4)
         components["RN_G"] = Yvals
         components["LE_H"] = Xvals
 
@@ -347,6 +346,15 @@ def plot_closure(merged_df):
             transform=ax.transAxes,
             s=equation,
             color="red",
+            fontsize=12,
+            ha="left",
+        )
+        ax.text(
+            0.1,
+            0.85,
+            transform=ax.transAxes,
+            s=f"Energy Balance Closure Fraction: {eb_ratio}",
+            color="brown",
             fontsize=12,
             ha="left",
         )
