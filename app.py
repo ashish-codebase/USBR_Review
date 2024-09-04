@@ -32,7 +32,7 @@ def get_db(sqlite_file):
 
 
 plot_shape = (18, 3)
-update_summaries.main()
+# update_summaries.main()
 st.set_page_config(
     page_title="Daily EC data monitor",
     layout="wide",
