@@ -7,7 +7,7 @@ import os
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import HuberRegressor, LinearRegression
 from sklearn.metrics import r2_score
-# import update_summaries
+import update_summaries
 from scipy.stats import linregress
 import sqlite3
 import glob
@@ -729,7 +729,7 @@ def plot_co2_comparision(merged_df):
 
 merged_df = pd.DataFrame()
 dbPath = f"{script_path}/Data/{selceted_site}/summaries/{selceted_site}.db"
-st.write(f"{dbPath}")
+# st.write(f"{dbPath}")
 merged_df = get_db(dbPath)
 start_date = merged_df.index.values[0]
 end_date = merged_df.index.values[-1]
