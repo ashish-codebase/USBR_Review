@@ -11,6 +11,7 @@ import update_summaries
 from scipy.stats import linregress
 import sqlite3
 import glob
+from windrose import WindroseAxes
 
 selceted_site = ""
 
@@ -739,6 +740,31 @@ def plot_co2_comparision(merged_df):
     st.pyplot(fig)
     plt.close()
 
+
+def wind_rose(merged_df):
+    # Create a windrose plot
+    fig, ax = plt.subplots(subplot_kw={'projection': 'windrose'})
+    ax.bar(merged_df['wind_dir'], merged_df['wind_speed'], normed=True, opening=0.8, edgecolor='white')
+    ax.set_legend()
+    # fig, ax = plt.subplot(figsize=[8,8])
+    # ax = WindroseAxes.from_ax()
+    # ax.bar(merged_df['wind_dir'], merged_df['wind_speed'], normed=True, opening=0.8, edgecolor='white')
+    ax.set_title(f'Windrose: {selceted_site}')
+    col1, col2 = st.columns(2)
+    try:
+        with col1:
+            st.pyplot(fig)
+            plt.close()
+    except:
+        st.text("Variable not found")
+        pass
+    try:
+        with col2:
+            st.image(update_summaries.windroses[f"{selceted_site}"], caption=selceted_site)
+    except:
+        st.text("Variable not found")
+        pass
+
 merged_df = pd.DataFrame()
 dbPath = f"{script_path}/Data/{selceted_site}/summaries/{selceted_site}.db"
 # st.write(f"{dbPath}")
@@ -774,6 +800,7 @@ with col2:
     st.pyplot(fig2)
     plt.close()
 
+wind_rose(merged_df)
 
 plot_ppdf_swin(merged_df)
 

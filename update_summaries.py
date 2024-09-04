@@ -3,8 +3,7 @@ import glob
 import os
 import datetime
 import sqlite3
-import threading
-# import streamlit as st
+
 columnlist = [
     "air_pressure",
     "air_temperature",
@@ -53,6 +52,8 @@ columnlist = [
     "TS_9_1_1",
     "VPD",
     "water_vapor_density",
+    "wind_dir",
+    "wind_speed"
 ]
 sites = [
     "LaPlata",
@@ -68,7 +69,21 @@ sites = [
     "Sutherland_Beans",
     "Holbrook"
 ]
-
+windroses = {
+    "LaPlata":"https://bil-ec-towers.vercel.app/WindRose_LaPlata.png",
+    "NAPI":"https://bil-ec-towers.vercel.app/WindRose_NAPI.png",
+    "Olathe":"https://bil-ec-towers.vercel.app/WindRose_Uncompahgre.png",
+    "Baggs":"https://bil-ec-towers.vercel.app/WindRose_Baggs.png",
+    "Cora":"https://bil-ec-towers.vercel.app/WindRose_Cora.png",
+    "Cortez":"https://bil-ec-towers.vercel.app/WindRose_Cortez.png",
+    "Gunnison":"https://bil-ec-towers.vercel.app/WindRose_Gunnison.png",
+    "Cora":"https://bil-ec-towers.vercel.app/WindRose_Cora.png",
+    "Boulder":"https://bil-ec-towers.vercel.app/WindRose_Farson.png",
+    "HUC_12":"",
+    "GrantNE":"",
+    "Sutherland_Beans":"",
+    "Holbrook":""
+}
 
 def get_dataframe(filePath):
     tempPath = os.path.basename(filePath)
@@ -113,8 +128,8 @@ def read_db(selected_site):
             if os.path.getsize(filePath) == 0:
                 continue
             df = get_dataframe(filePath)
-            if df.shape[0] < 3:
-                return
+            if df.shape[0] < 1:
+                continue
             if counter == 0:
                 merged_df = df
                 counter = 1
