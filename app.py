@@ -310,12 +310,14 @@ def plot_closure(merged_df):
     fig, ax = plt.subplots(figsize=(9, 9))
     try:
         components = pd.DataFrame()
-        Yvals = clean_column(merged_df,"RN_1_1_1") - clean_column(merged_df,"SHF_1_1_1")
+        Yvals = clean_column(merged_df,"RN_1_1_1") - clean_column(merged_df,"SHF_3_1_1")
         Xvals = clean_column(merged_df,"LE") + clean_column(merged_df,"H")
-        eb_ratio = round((Xvals.sum()/Yvals.sum()),4)
         components["RN_G"] = Yvals
         components["LE_H"] = Xvals
-
+        eb_ratio_array = (components["LE_H"].values/components["RN_G"].values)
+        eb_ratio_array = np.clip(eb_ratio_array,-0.5, 1.5)
+        components["EB_Array"] = eb_ratio_array
+        eb_ratio = round((components["RN_G"].values.sum()/components["LE_H"].values.sum()),4)
         components = components[
             (components.index.hour >= 7) & (components.index.hour < 19)
         ]
@@ -329,13 +331,15 @@ def plot_closure(merged_df):
         )
         y_fit = slope * x_fit + intercept
 
-        ax.scatter(
-            components.RN_G,
-            components.LE_H,
-            linewidth=1,
+        scatter = ax.scatter(
+            components.RN_G.values,
+            components.LE_H.values,
+            c=components["EB_Array"],
+            cmap='plasma',
             label="Energy balance closure",
             s=2,
         )
+        plt.colorbar(scatter, ax=ax, label='EBC fraction')
         ax.plot(x_fit, y_fit, color="red", label="Regression line")
         # Create the equation string
         equation = f"y = {slope:.2f}x + {intercept:.2f}\n $R^2$={round(r_value,4)}"
@@ -353,7 +357,7 @@ def plot_closure(merged_df):
             0.1,
             0.85,
             transform=ax.transAxes,
-            s=f"Energy Balance Closure Fraction: {eb_ratio}",
+            s=f"Energy Balance Closure (EBC) fraction: {eb_ratio}",
             color="brown",
             fontsize=12,
             ha="left",
