@@ -55,6 +55,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 st.markdown("### Daily EC summary data from all online towers in CO, WY, NM & NE")
+st.text(f"The script is running from: {script_path}")
 
 st.text("")
 st.text("")
