@@ -45,7 +45,7 @@ with st.sidebar:
     st.title("Navigation")
     selceted_site = st.radio("Select EC site:", sites)
     days_limit = st.number_input(
-        "Enter days to show:", step=7, min_value=1, max_value=365, value=14
+        "Enter days to show:", step=7, min_value=1, max_value=366, value=14
     )
 
 script_path = os.getcwd()
@@ -55,8 +55,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 st.markdown("### Daily EC summary data from all online towers in CO, WY, NM & NE")
-for local_file in all_files:
-    st.text(f"The script is running from: {(local_file)}")
+# for local_file in all_files:
+#     st.text(f"The script is running from: {(local_file)}")
 
 st.text("")
 st.text("")
@@ -727,8 +727,10 @@ def plot_co2_comparision(merged_df):
     st.pyplot(fig)
     plt.close()
 
-
-merged_df = get_db(f"{script_path}/Data/{selceted_site}/summaries/summary.db")
+merged_df = pd.DataFrame()
+dbPath = f"{script_path}/Data/{selceted_site}/summaries/{selceted_site}.db"
+st.write(f"{dbPath}")
+merged_df = get_db(dbPath)
 start_date = merged_df.index.values[0]
 end_date = merged_df.index.values[-1]
 limit_date = end_date - pd.Timedelta(days=days_limit)
@@ -776,7 +778,7 @@ plt.rcParams["axes.facecolor"] = "whitesmoke"
 
 plot_albedo(merged_df)
 
-plot_vaporpressure(merged_df)
+# plot_vaporpressure(merged_df)
 
 plot_EB_components(merged_df)
 

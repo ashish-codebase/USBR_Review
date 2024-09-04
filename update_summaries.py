@@ -3,7 +3,8 @@ import glob
 import os
 import datetime
 import sqlite3
-
+import threading
+# import streamlit as st
 columnlist = [
     "air_pressure",
     "air_temperature",
@@ -65,7 +66,7 @@ sites = [
     "HUC_12",
     "GrantNE",
     "Sutherland_Beans",
-    "Holbrook",
+    "Holbrook"
 ]
 
 
@@ -88,56 +89,63 @@ def get_dataframe(filePath):
 
 
 def main():
-    todaysDate = datetime.datetime.today().date()
-    main_path = r"D:\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
-    script_path = os.getcwd()
-    for selected_site in sites:
-        summary_sqlite = f"{script_path}/Data/{selected_site}/summaries/summary.db"
-        mod_time_readable = datetime.datetime(month=1, day=1, year=1900).date()
-        if os.path.exists(summary_sqlite):
-            mod_time = os.path.getmtime(summary_sqlite)
-            mod_time_readable = datetime.datetime.fromtimestamp(mod_time).date()
+    lock = threading.Lock()
+    with lock:
+        todaysDate = datetime.datetime.today().date()
+        main_path = r"D:\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
+        script_path = os.getcwd()
+        for selected_site in sites:
+            db_path = f"{script_path}/Data/{selected_site}/summaries/{selected_site}.db"
+            print(f"DB path string {db_path}")
+            mod_time_readable = datetime.datetime(month=1, day=1, year=1900).date()
+            if os.path.exists(db_path):
+                mod_time = os.path.getmtime(db_path)
+                mod_time_readable = datetime.datetime.fromtimestamp(mod_time).date()
 
-        if mod_time_readable < todaysDate:
+            if mod_time_readable < todaysDate:
 
-            file_pattern = f"{main_path}/{selected_site}/summaries/*Summary.txt"
-            csv_files = glob.glob(file_pattern, recursive=True)
-            if len(csv_files) == 0:
-                continue
-            counter = 0
-            for filePath in csv_files:
-                if os.path.getsize(filePath) == 0:
+                file_pattern = f"{main_path}/{selected_site}/summaries/*Summary.txt"
+                print(f"Summary files search path: {file_pattern}")
+                print("")
+                print("")
+                print("")
+                summary_files = glob.glob(file_pattern, recursive=True)
+                if len(summary_files) == 0:
                     continue
-                df = get_dataframe(filePath)
-                if df.shape[0] < 3:
-                    continue
-                if counter == 0:
-                    merged_df = df
-                    counter = 1
-                else:
-                    merged_df = pd.concat([merged_df, df], axis=0)
+                counter = 0
+                for filePath in summary_files:
+                    if os.path.getsize(filePath) == 0:
+                        continue
+                    df = get_dataframe(filePath)
+                    if df.shape[0] < 3:
+                        continue
+                    if counter == 0:
+                        merged_df = df
+                        counter = 1
+                    else:
+                        merged_df = pd.concat([merged_df, df], axis=0)
 
-            merged_df = merged_df[
-                (
-                    merged_df.index
-                    >= datetime.datetime(datetime.datetime.today().year, 1, 1)
-                )
-            ]
-            merged_df.sort_index(inplace=True)
-            merged_df.drop_duplicates(inplace=True)
-            start_time = datetime.datetime.now()
-            conn = sqlite3.connect(summary_sqlite)
-            merged_df.to_sql("summary", con=conn, if_exists="replace", index=True)
-            # Close the connection
-            conn.close()
+                merged_df = merged_df[
+                    (
+                        merged_df.index
+                        >= datetime.datetime(datetime.datetime.today().year, 1, 1)
+                    )
+                ]
+                merged_df.sort_index(inplace=True)
+                merged_df.drop_duplicates(inplace=True)
+                start_time = datetime.datetime.now()
+                conn = sqlite3.connect(db_path)
+                merged_df.to_sql(name="summary", con=conn, if_exists="replace", index=True)
+                # Close the connection
+                conn.close()
 
-            delta = datetime.datetime.now() - start_time
-            performance = f"Time difference for {selected_site}: {delta}"
+                # delta = datetime.datetime.now() - start_time
+                # performance = f"Time difference for {selected_site}: {delta}"
 
-            with open("performance.txt", "a") as file:
-                print(performance)
-                # Write a line to the file
-                file.write(performance + "\n")
+                # with open("performance.txt", "a") as file:
+                #     print(performance)
+                #     # Write a line to the file
+                #     file.write(performance + "\n")
 
 
 if __name__ == "__main__":
