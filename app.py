@@ -7,7 +7,7 @@ import os
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import HuberRegressor, LinearRegression
 from sklearn.metrics import r2_score
-import update_summaries
+# import update_summaries
 from scipy.stats import linregress
 import sqlite3
 import glob

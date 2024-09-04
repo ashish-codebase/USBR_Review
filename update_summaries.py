@@ -138,6 +138,7 @@ def main():
                 merged_df.to_sql(name="summary", con=conn, if_exists="replace", index=True)
                 # Close the connection
                 conn.close()
+                merged_df = pd.DataFrame()
 
                 # delta = datetime.datetime.now() - start_time
                 # performance = f"Time difference for {selected_site}: {delta}"
