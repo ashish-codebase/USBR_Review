@@ -161,9 +161,9 @@ def plot_horizontal_SWC(merged_df):
         label="SWC_3_1_1 m3/m3",
     )
 
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
 
-    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
     ax.set_title(selceted_site + ": Soil water content for soil heat flux ~5 cm.")
@@ -259,7 +259,8 @@ def plot_RH(merged_df):
         linewidth=1,
         label="RH (gas analyzer)",
     )
-
+    
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
