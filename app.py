@@ -804,7 +804,7 @@ plot_ppdf_swin(merged_df)
 
 plot_co2_comparision(merged_df)
 
-plot_airpresure(merged_df)
+# plot_airpresure(merged_df)
 
 # outer area color
 plt.rcParams["figure.facecolor"] = "whitesmoke"
