@@ -49,6 +49,8 @@ with st.sidebar:
         "Enter days to show:", step=7, min_value=1, value=21
     )
 
+ticks = np.clip(int(days_limit/10),1,15)
+
 script_path = os.getcwd()
 all_files = glob.glob(script_path + "**/**/*", recursive=True)
 st.markdown(
@@ -86,6 +88,8 @@ def plot_ET(merged_df):
         label="Cumulative daily ET (mm)",
         width=bar_width,
     )
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -123,6 +127,8 @@ def plot_temperatures(merged_df):
         )
     except:
         ax.set_title(selceted_site + ": Sonic, Air & NR body temperatures (C)")
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -156,6 +162,8 @@ def plot_horizontal_SWC(merged_df):
     )
 
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
     ax.set_title(selceted_site + ": Soil water content for soil heat flux ~5 cm.")
@@ -265,6 +273,8 @@ def plot_co2signal(merged_df):
     colName = "co2_signal_strength_7500_mean"
     fig, ax = plt.subplots(figsize=plot_shape)
     ax.plot(merged_df.index, clean_column(merged_df, colName), linewidth=1)
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -298,6 +308,8 @@ def plot_SHF(merged_df):
         label="SHF_3_1_1 (W/m2)",
     )
 
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -354,11 +366,12 @@ def plot_closure(merged_df):
             fontsize=12,
             ha="left",
         )
+        eq_string = r"$EBR = \frac {\sum{LE+H}}{\sum{RN-G}} =$"
         ax.text(
             0.1,
-            0.85,
+            0.7,
             transform=ax.transAxes,
-            s=f"Energy Balance Closure (EBC) fraction: {eb_ratio}",
+            s=f"Energy Balance Ratio:-\n    {eq_string} {eb_ratio}",
             color="brown",
             fontsize=12,
             ha="left",
@@ -401,6 +414,8 @@ def plot_soil_profile_temperature(merged_df):
         label="TS_6_1_1 (C)",
     )
 
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -437,6 +452,8 @@ def plot_temperature_SHF(merged_df):
         label="TS_3_1_1 (C)",
     )
 
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -470,6 +487,8 @@ def plot_profile_SWC(merged_df):
         label="SWC_6_1_1 m3/m3",
     )
 
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -504,6 +523,8 @@ def plot_temperature_probe(merged_df):
         linewidth=1,
         label="TS_9_1_1 (C)",
     )
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -526,6 +547,8 @@ def plot_ppdf_swin(merged_df):
         linewidth=1,
         label="PPFD (factor= 0.5100) (W/m2",
     )
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     ax.plot(
         merged_df.index,
@@ -572,6 +595,8 @@ def plot_solar_components(merged_df):
         linewidth=1,
         label="LWOUT (W/m2)",
     )
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -621,6 +646,8 @@ def plot_EB_components(merged_df):
         linewidth=1,
         label="LE (W/m2)",
     )
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -656,6 +683,8 @@ def plot_vaporpressure(merged_df):
         linewidth=1,
         label="Saturation vapor pressure (Pa)",
     )
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_title(selceted_site + ": " + colName1 + " & " + colName2)
@@ -669,6 +698,8 @@ def plot_airpresure(merged_df):
     colName = "air_pressure"
     fig, ax = plt.subplots(figsize=plot_shape)
     ax.plot(merged_df.index, merged_df[colName], linewidth=1)
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -682,6 +713,8 @@ def plot_albedo(merged_df):
         colName = "ALB_1_1_1"
         fig, ax = plt.subplots(figsize=plot_shape)
         ax.plot(merged_df.index, clean_column(merged_df, colName), linewidth=1)
+    
+        ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
         plt.xticks(rotation=45, ha="right")
         ax.set_xlim(date_range)
@@ -699,6 +732,8 @@ def plot_precip(merged_df):
     fig, ax = plt.subplots(figsize=plot_shape)
     bar_width = np.clip((0.0023 * ET_Daily.shape[0] + 0.0204), 0.025, 0.2)
     ax.bar(ET_Daily.index, ET_Daily.values, label="Liquid precip (cm)", width=bar_width)
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -725,6 +760,8 @@ def plot_co2_comparision(merged_df):
         linewidth=1,
         label="LI-7500 CO2 molar density mmol/m3",
     )
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     ax.plot(
         merged_df.index,
