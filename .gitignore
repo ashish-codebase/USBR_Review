@@ -2,6 +2,7 @@
 *Summary.txt
 *.rar
 .venv
+performance.txt
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
