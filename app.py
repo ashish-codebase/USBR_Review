@@ -812,7 +812,7 @@ plt.rcParams["figure.facecolor"] = "whitesmoke"
 plt.rcParams["axes.facecolor"] = "whitesmoke"
 
 
-plot_albedo(merged_df)
+# plot_albedo(merged_df)
 
 # plot_vaporpressure(merged_df)
 
