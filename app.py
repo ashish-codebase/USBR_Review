@@ -12,6 +12,7 @@ from scipy.stats import linregress
 import sqlite3
 import glob
 from windrose import WindroseAxes
+from datetime import datetime, timedelta
 
 selceted_site = ""
 
@@ -57,8 +58,10 @@ st.markdown(
     "<h1 style='text-align: center; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
     unsafe_allow_html=True,
 )
-st.markdown("### Daily EC summary data from all online towers in CO, WY, NM & NE")
-
+# st.markdown("### Daily EC summary data from all online towers in CO, WY, NM & NE")
+st.markdown(f"## **{selceted_site}**:-")
+st.markdown(f"- This is raw and uncorrected data and should be used only to review sensor's functionality.")
+st.markdown(f"- **Date range:** {datetime.today().date() - timedelta(days=days_limit)} - {datetime.today().date()}")
 st.text("")
 st.text("")
 
@@ -259,7 +262,7 @@ def plot_RH(merged_df):
         linewidth=1,
         label="RH (gas analyzer)",
     )
-    
+
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")

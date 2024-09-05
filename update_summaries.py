@@ -4,6 +4,9 @@ import os
 import datetime
 import sqlite3
 
+mod_time_readable = datetime.datetime(month=1, day=1, year=1900).date()
+today_date = datetime.datetime.today().date()
+date_range = (mod_time_readable, today_date)
 columnlist = [
     "air_pressure",
     "air_temperature",
@@ -106,8 +109,7 @@ def read_db(selected_site):
     main_path = r"D:\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
     script_path = os.getcwd()
     db_path = f"{script_path}/Data/{selected_site}/summaries/{selected_site}.db"
-    print(f"DB path string {db_path}")
-    mod_time_readable = datetime.datetime(month=1, day=1, year=1900).date()
+    print(f"DB path string {db_path}")    
     if os.path.exists(db_path):
         mod_time = os.path.getmtime(db_path)
         mod_time_readable = datetime.datetime.fromtimestamp(mod_time).date()
