@@ -191,7 +191,7 @@ def plot_RH_regression(merged_df):
 
     # Perform Huber Regression
     huber = HuberRegressor()
-    huber.fit(X, y)
+    huber.fit(X.values, y)
     huber_slope = huber.coef_[0]
     huber_intercept = huber.intercept_
     huber_yPredicted = huber.predict(X)
@@ -203,22 +203,16 @@ def plot_RH_regression(merged_df):
 
     # Perform Linear Regression
     linear = LinearRegression()
-    linear.fit(X, y)
+    linear.fit(X.values, y)
     linear_slope = linear.coef_[0]
     linear_intercept = linear.intercept_
     linear_yPredicted = linear.predict(X)
     linear_r2 = r2_score(y, linear_yPredicted)
 
     linear_regression = "Linear Regression:"
-    linear_regression += f"\n    Intercept: {float(linear_intercept):.4f}"
-    linear_regression += f"\n    Slope: {float(linear_slope):.4f}"
+    linear_regression += f"\n    Intercept: {linear_intercept[0]:.4f}"
+    linear_regression += f"\n    Slope: {linear_slope[0]:.4f}"
     linear_regression += f"\n    R2: {float(linear_r2):.4f}"
-
-    # Generate predictions
-    X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
-    X_plot_scaled = scaler.transform(X_plot)
-    y_pred_huber = huber.predict(X_plot_scaled)
-    y_pred_linear = linear.predict(X_plot_scaled)
 
     # Plot the results
     fig, ax = plt.subplots(figsize=(8, 8))
