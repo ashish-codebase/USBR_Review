@@ -354,7 +354,7 @@ def plot_closure(merged_df):
             label="Energy balance closure",
             s=2,
         )
-        plt.colorbar(scatter, ax=ax, label="EBR (fraction)")
+        plt.colorbar(scatter, ax=ax, label="EBR (unitless)")
         ax.plot(x_fit, y_fit, color="red", label="Regression line")
         # Create the equation string
         equation = f"y = {slope:.2f}x + {intercept:.2f}\n$R^2$={round(r_value,4)}"
