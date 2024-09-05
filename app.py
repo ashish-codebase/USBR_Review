@@ -16,6 +16,7 @@ from datetime import datetime, timedelta
 
 selceted_site = ""
 
+
 @st.cache_data
 def get_parquet(parquet_file):
     return pd.read_parquet(parquet_file)
@@ -46,11 +47,9 @@ sites = update_summaries.sites
 with st.sidebar:
     st.title("Navigation")
     selceted_site = st.radio("Select EC site:", sites)
-    days_limit = st.number_input(
-        "Enter days to show:", step=7, min_value=1, value=21
-    )
+    days_limit = st.number_input("Enter days to show:", step=7, min_value=1, value=21)
 
-ticks = np.clip(int(days_limit/10),1,15)
+ticks = np.clip(int(days_limit / 10), 1, 15)
 
 script_path = os.getcwd()
 all_files = glob.glob(script_path + "**/**/*", recursive=True)
@@ -60,8 +59,12 @@ st.markdown(
 )
 # st.markdown("### Daily EC summary data from all online towers in CO, WY, NM & NE")
 st.markdown(f"## **{selceted_site}**:-")
-st.markdown(f"- This is raw and uncorrected data and should be used only to review sensor's functionality.")
-st.markdown(f"- **Date range:** {datetime.today().date() - timedelta(days=days_limit)} - {datetime.today().date()}")
+st.markdown(
+    f"- This is raw and uncorrected data and should be used only to review sensor's functionality."
+)
+st.markdown(
+    f"- **Date range:** {datetime.today().date() - timedelta(days=days_limit)} - {datetime.today().date()}"
+)
 st.text("")
 st.text("")
 
@@ -306,7 +309,6 @@ def plot_SHF(merged_df):
         label="SHF_3_1_1 (W/m2)",
     )
 
-
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
@@ -321,14 +323,16 @@ def plot_closure(merged_df):
     fig, ax = plt.subplots(figsize=(9, 9))
     try:
         components = pd.DataFrame()
-        Yvals = clean_column(merged_df,"RN_1_1_1") - clean_column(merged_df,"SHF_3_1_1")
-        Xvals = clean_column(merged_df,"LE") + clean_column(merged_df,"H")
+        Yvals = clean_column(merged_df, "RN_1_1_1") - clean_column(
+            merged_df, "SHF_3_1_1"
+        )
+        Xvals = clean_column(merged_df, "LE") + clean_column(merged_df, "H")
         components["RN_G"] = Yvals
         components["LE_H"] = Xvals
-        eb_ratio_array = (components["LE_H"].values/components["RN_G"].values)
-        eb_ratio_array = np.clip(eb_ratio_array,-0.5, 1.5)
+        eb_ratio_array = components["LE_H"].values / components["RN_G"].values
+        eb_ratio_array = np.clip(eb_ratio_array, -0.5, 1.5)
         components["EB_Array"] = eb_ratio_array
-        eb_ratio = round((components["LE_H"].sum()/components["RN_G"].sum()),4)
+        eb_ratio = round((components["LE_H"].sum() / components["RN_G"].sum()), 4)
         components = components[
             (components.index.hour >= 7) & (components.index.hour < 19)
         ]
@@ -346,11 +350,11 @@ def plot_closure(merged_df):
             components.RN_G.values,
             components.LE_H.values,
             c=components["EB_Array"],
-            cmap='plasma',
+            cmap="plasma",
             label="Energy balance closure",
             s=2,
         )
-        plt.colorbar(scatter, ax=ax, label='EBC fraction')
+        plt.colorbar(scatter, ax=ax, label="EBC fraction")
         ax.plot(x_fit, y_fit, color="red", label="Regression line")
         # Create the equation string
         equation = f"y = {slope:.2f}x + {intercept:.2f}\n$R^2$={round(r_value,4)}"
@@ -412,7 +416,6 @@ def plot_soil_profile_temperature(merged_df):
         label="TS_6_1_1 (C)",
     )
 
-
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
@@ -450,7 +453,6 @@ def plot_temperature_SHF(merged_df):
         label="TS_3_1_1 (C)",
     )
 
-
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
@@ -484,7 +486,6 @@ def plot_profile_SWC(merged_df):
         linewidth=1,
         label="SWC_6_1_1 m3/m3",
     )
-
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
@@ -711,7 +712,7 @@ def plot_albedo(merged_df):
         colName = "ALB_1_1_1"
         fig, ax = plt.subplots(figsize=plot_shape)
         ax.plot(merged_df.index, clean_column(merged_df, colName), linewidth=1)
-    
+
         ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
         plt.xticks(rotation=45, ha="right")
@@ -778,10 +779,19 @@ def plot_co2_comparision(merged_df):
 
 def wind_rose(merged_df):
     # Create a windrose plot
-    fig, ax = plt.subplots(subplot_kw={'projection': 'windrose'})
-    ax.bar(merged_df['wind_dir'], merged_df['wind_speed'], normed=True, opening=0.8, edgecolor='white', nsector=36,cmap=plt.cm.jet, bins=[0,2,5,7,10,15,19.99])
+    fig, ax = plt.subplots(subplot_kw={"projection": "windrose"})
+    ax.bar(
+        merged_df["wind_dir"],
+        merged_df["wind_speed"],
+        normed=True,
+        opening=0.8,
+        edgecolor="white",
+        nsector=36,
+        cmap=plt.cm.jet,
+        bins=[0, 2, 5, 7, 10, 15, 19.99],
+    )
     ax.set_legend()
-    ax.set_title(f'Windrose: {selceted_site}')
+    ax.set_title(f"Windrose: {selceted_site}")
     col1, col2 = st.columns(2)
     try:
         with col1:
@@ -793,11 +803,16 @@ def wind_rose(merged_df):
         pass
     try:
         with col2:
-            st.markdown(f"### Wind rose downloaded from the nearest weather station for years 2000 - 2023.")
-            st.image(update_summaries.windroses[f"{selceted_site}"], caption=selceted_site)
+            st.markdown(
+                f"### Wind rose downloaded from the nearest weather station for years 2000 - 2023."
+            )
+            st.image(
+                update_summaries.windroses[f"{selceted_site}"], caption=selceted_site
+            )
     except:
         st.text("Variable not found")
         pass
+
 
 merged_df = pd.DataFrame()
 dbPath = f"{script_path}/Data/{selceted_site}/summaries/{selceted_site}.db"
