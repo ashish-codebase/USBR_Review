@@ -46,7 +46,7 @@ with st.sidebar:
     st.title("Navigation")
     selceted_site = st.radio("Select EC site:", sites)
     days_limit = st.number_input(
-        "Enter days to show:", step=7, min_value=1, value=14
+        "Enter days to show:", step=7, min_value=1, value=21
     )
 
 script_path = os.getcwd()
@@ -744,11 +744,8 @@ def plot_co2_comparision(merged_df):
 def wind_rose(merged_df):
     # Create a windrose plot
     fig, ax = plt.subplots(subplot_kw={'projection': 'windrose'})
-    ax.bar(merged_df['wind_dir'], merged_df['wind_speed'], normed=True, opening=0.8, edgecolor='white')
+    ax.bar(merged_df['wind_dir'], merged_df['wind_speed'], normed=True, opening=0.8, edgecolor='white', nsector=36,cmap=plt.cm.jet, bins=[0,2,5,7,10,15,19.99])
     ax.set_legend()
-    # fig, ax = plt.subplot(figsize=[8,8])
-    # ax = WindroseAxes.from_ax()
-    # ax.bar(merged_df['wind_dir'], merged_df['wind_speed'], normed=True, opening=0.8, edgecolor='white')
     ax.set_title(f'Windrose: {selceted_site}')
     col1, col2 = st.columns(2)
     try:
