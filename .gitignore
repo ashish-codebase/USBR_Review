@@ -1,6 +1,7 @@
 # Ignore daily summary text files
 *Summary.txt
 *.rar
+.venv
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
