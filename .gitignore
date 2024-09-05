@@ -166,3 +166,4 @@ cython_debug/
 /performance.txt
 __pycache__/update_summaries.cpython-311.pyc
 /__pycache__
+__pycache__/update_summaries.cpython-311.pyc

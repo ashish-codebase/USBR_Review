@@ -791,6 +791,7 @@ def wind_rose(merged_df):
     col1, col2 = st.columns(2)
     try:
         with col1:
+            st.markdown(f"### **Wind rose generated from the EC tower data.**")
             st.pyplot(fig)
             plt.close()
     except:
@@ -798,6 +799,7 @@ def wind_rose(merged_df):
         pass
     try:
         with col2:
+            st.markdown(f"### Wind rose downloaded from the nearest weather station for years 2000 - 2023.")
             st.image(update_summaries.windroses[f"{selceted_site}"], caption=selceted_site)
     except:
         st.text("Variable not found")
