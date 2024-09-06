@@ -774,7 +774,7 @@ def plot_co2_comparision(merged_df):
     )
     ax.set_xlim(date_range)
     plt.xticks(rotation=45, ha="right")
-    ax.set_title(selceted_site + ": Quantum sensor & CO2 number density")
+    ax.set_title(selceted_site + ": LI-7500 CO2 molar density & CO2 number density")
     ax.legend()
     st.pyplot(fig)
     plt.close()
@@ -793,9 +793,9 @@ def wind_rose(merged_df):
         cmap=plt.cm.jet,
         bins=[0, 2, 5, 7, 10, 15, 19.99],
     )
-    ax.set_legend()
     ax.set_title(f"Windrose: {selceted_site}")
-    col1, col2 = st.columns(2)
+    ax.set_legend(title="Windrose (m/s)", loc='lower left',  bbox_to_anchor=(-0.1, -0.1), bbox_transform=ax.transAxes)
+    col1, col2, col3 = st.columns(3)
     try:
         with col1:
             st.markdown(f"### **Wind rose generated from the EC tower data.**")
@@ -819,6 +819,20 @@ def wind_rose(merged_df):
         st.text("Variable not found")
         pass
 
+    try:
+        with col3:
+            st.markdown(
+                f"### Wind Rose from the nearest weatherstation."
+            )
+            relative_path = update_summaries.windroses[f"{selceted_site}"]
+            wind_rose_path = f"{script_path}\{relative_path}"
+            wind_rose_path = wind_rose_path.replace("\\","/")
+            st.image(
+               wind_rose_path, caption=selceted_site
+            )
+    except:
+        st.text("Variable not found")
+        pass
 
 merged_df = pd.DataFrame()
 dbPath = f"{script_path}/Data/{selceted_site}/summaries/{selceted_site}.db"

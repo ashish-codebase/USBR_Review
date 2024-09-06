@@ -86,7 +86,20 @@ windroses = {
     "Sutherland_Beans":"Data\WindRose\WindRose_Sutherland.png",
     "Holbrook":"Data\WindRose\WindRose_Holbrook.png"
 }
-
+satellite_images = {
+    "LaPlata":"Data\SatelliteImage\LaPlata.jpg",
+    "NAPI":"Data\SatelliteImage\NAPI.jpg",
+    "Olathe":"Data\SatelliteImage\Olathe.jpg",
+    "Baggs":"Data\SatelliteImage\Baggs.jpg",
+    "Cora":"Data\SatelliteImage\Cora.jpg",
+    "Cortez":"Data\SatelliteImage\Cortez.jpg",
+    "Gunnison":"Data\SatelliteImage\Gunnison.jpg",
+    "Boulder":"Data\SatelliteImage\Boulder.jpg",
+    "HUC_12":"Data\SatelliteImage\HUC12.jpg",
+    "GrantNE":"Data\WindRose\WindRose_GrantNE.png",
+    "Sutherland_Beans":"Data\SatelliteImage\Sutherland.jpg",
+    "Holbrook":"Data\SatelliteImage\Holbrook.jpg"
+}
 def get_dataframe(filePath):
     """Get the dataframe from the selected daily summary file for the pre-selected columns only."""
     tempPath = os.path.basename(filePath)
