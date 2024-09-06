@@ -807,8 +807,10 @@ def wind_rose(merged_df):
                 f"### Wind rose downloaded from the nearest weather station for years 2000 - 2023."
             )
             relative_path = update_summaries.windroses[f"{selceted_site}"]
+            wind_rose_path = f"{script_path}\{relative_path}"
+            st.markdown(f"Wind rose path: {wind_rose_path}")
             st.image(
-                f"{script_path}\{relative_path}", caption=selceted_site
+               wind_rose_path, caption=selceted_site
             )
     except:
         st.text("Variable not found")
