@@ -371,7 +371,7 @@ def plot_closure(merged_df):
             fontsize=12,
             ha="left",
         )
-        eq_string = r"$EBR = \frac {\sum{LE+H}}{\sum{RN-G}} =$"
+        eq_string = r"$EBR = \frac {\sum{(LE+H)}}{\sum{(RN-G)}} =$"
         ax.text(
             0.1,
             0.7,
