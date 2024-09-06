@@ -337,10 +337,13 @@ def plot_closure(merged_df):
             (components.index.hour >= 7) & (components.index.hour < 19)
         ]
         components = components.dropna()
-        maxval = max(components.RN_G.max(), components.LE_H.max())
-        slope, intercept, r_value, p_value, std_err = linregress(
+        # maxval = max(components.RN_G.max(), components.LE_H.max())
+        regression_results = linregress(
             components.RN_G, components.LE_H
         )
+        slope = regression_results.slope
+        intercept = regression_results.intercept
+        rvalue = regression_results.rvalue
         x_fit = np.linspace(
             components.RN_G.min(), components.RN_G.max(), components.shape[0]
         )
@@ -357,7 +360,7 @@ def plot_closure(merged_df):
         plt.colorbar(scatter, ax=ax, label="EBR (unitless)")
         ax.plot(x_fit, y_fit, color="red", label="Regression line")
         # Create the equation string
-        equation = f"y = {slope:.2f}x + {intercept:.2f}\n$R^2$={round(r_value,4)}"
+        equation = f"y = {slope:.2f}x + {intercept:.2f}\n$R^2$={round(rvalue**2,4)}"
         # Annotate the plot with the equation
         ax.text(
             0.1,
