@@ -808,6 +808,7 @@ def wind_rose(merged_df):
             )
             relative_path = update_summaries.windroses[f"{selceted_site}"]
             wind_rose_path = f"{script_path}\{relative_path}"
+            wind_rose_path = wind_rose_path.replace("\\","/")
             st.markdown(f"Wind rose path: {wind_rose_path}")
             st.image(
                wind_rose_path, caption=selceted_site
