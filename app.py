@@ -804,7 +804,7 @@ def wind_rose(merged_df):
     try:
         with col2:
             st.markdown(
-                f"### Historic Wind Rose from nearest weatherstation."
+                f"### Historic Wind Rose from the nearest weatherstation."
             )
             relative_path = update_summaries.windroses[f"{selceted_site}"]
             wind_rose_path = f"{script_path}\{relative_path}"
