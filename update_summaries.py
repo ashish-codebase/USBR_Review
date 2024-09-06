@@ -73,21 +73,22 @@ sites = [
     "Holbrook"
 ]
 windroses = {
-    "LaPlata":"https://bil-ec-towers.vercel.app/WindRose_LaPlata.png",
-    "NAPI":"https://bil-ec-towers.vercel.app/WindRose_NAPI.png",
-    "Olathe":"https://bil-ec-towers.vercel.app/WindRose_Uncompahgre.png",
-    "Baggs":"https://bil-ec-towers.vercel.app/WindRose_Baggs.png",
-    "Cora":"https://bil-ec-towers.vercel.app/WindRose_Cora.png",
-    "Cortez":"https://bil-ec-towers.vercel.app/WindRose_Cortez.png",
-    "Gunnison":"https://bil-ec-towers.vercel.app/WindRose_Gunnison.png",
-    "Boulder":"https://bil-ec-towers.vercel.app/WindRose_Cora.png",
-    "HUC_12":"",
-    "GrantNE":"",
-    "Sutherland_Beans":"",
-    "Holbrook":""
+    "LaPlata":"Data\WindRose\WindRose_LaPlata.png",
+    "NAPI":"Data\WindRose\WindRose_NAPI.png",
+    "Olathe":"Data\WindRose\WindRose_Olathe.png",
+    "Baggs":"Data\WindRose\WindRose_Baggs.png",
+    "Cora":"Data\WindRose\WindRose_Cora.png",
+    "Cortez":"Data\WindRose\WindRose_Cortez.png",
+    "Gunnison":"Data\WindRose\WindRose_Gunnison.png",
+    "Boulder":"Data\WindRose\WindRose_Boulder.png",
+    "HUC_12":"Data\WindRose\WindRose_HUC12.png",
+    "GrantNE":"Data\WindRose\WindRose_GrantNE.png",
+    "Sutherland_Beans":"Data\WindRose\WindRose_Sutherland.png",
+    "Holbrook":"Data\WindRose\WindRose_Holbrook.png"
 }
 
 def get_dataframe(filePath):
+    """Get the dataframe from the selected daily summary file for the pre-selected columns only."""
     tempPath = os.path.basename(filePath)
     year_int = int(tempPath.split("-")[0])
     if year_int < datetime.datetime.today().year-1:
