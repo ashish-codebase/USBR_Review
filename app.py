@@ -13,6 +13,8 @@ import sqlite3
 import glob
 from windrose import WindroseAxes
 from datetime import datetime, timedelta
+from PIL import Image
+
 
 selceted_site = ""
 
@@ -812,8 +814,11 @@ def wind_rose(merged_df):
             relative_path = update_summaries.windroses[f"{selceted_site}"]
             wind_rose_path = f"{script_path}\{relative_path}"
             wind_rose_path = wind_rose_path.replace("\\","/")
+            # st.markdown(f"Wind rose path: {wind_rose_path}")
+            image = Image.open(wind_rose_path)
+
             st.image(
-               wind_rose_path, caption=selceted_site
+               image, caption=f"{selceted_site} Wind rose."
             )
     except:
         st.text("Variable not found")
@@ -822,13 +827,16 @@ def wind_rose(merged_df):
     try:
         with col3:
             st.markdown(
-                f"### Wind Rose from the nearest weatherstation."
+                f"### Satellite image of {selceted_site}."
             )
-            relative_path = update_summaries.windroses[f"{selceted_site}"]
-            wind_rose_path = f"{script_path}\{relative_path}"
-            wind_rose_path = wind_rose_path.replace("\\","/")
+            relative_path = update_summaries.satellite_images[selceted_site]
+            satellite_img_path = f"{script_path}/{relative_path}"
+            satellite_img_path = satellite_img_path.replace("\\","/")
+            # st.markdown(f"Satellite image path: {satellite_img_path}")
+            image = Image.open(satellite_img_path)
+
             st.image(
-               wind_rose_path, caption=selceted_site
+               image, caption=f"{selceted_site} satellite image."
             )
     except:
         st.text("Variable not found")

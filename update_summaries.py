@@ -73,32 +73,32 @@ sites = [
     "Holbrook"
 ]
 windroses = {
-    "LaPlata":"Data\WindRose\WindRose_LaPlata.png",
-    "NAPI":"Data\WindRose\WindRose_NAPI.png",
-    "Olathe":"Data\WindRose\WindRose_Olathe.png",
-    "Baggs":"Data\WindRose\WindRose_Baggs.png",
-    "Cora":"Data\WindRose\WindRose_Cora.png",
-    "Cortez":"Data\WindRose\WindRose_Cortez.png",
-    "Gunnison":"Data\WindRose\WindRose_Gunnison.png",
-    "Boulder":"Data\WindRose\WindRose_Boulder.png",
-    "HUC_12":"Data\WindRose\WindRose_HUC12.png",
-    "GrantNE":"Data\WindRose\WindRose_GrantNE.png",
-    "Sutherland_Beans":"Data\WindRose\WindRose_Sutherland.png",
-    "Holbrook":"Data\WindRose\WindRose_Holbrook.png"
+    "LaPlata":r"Data/WindRose/WindRose_LaPlata.png",
+    "NAPI":r"Data/WindRose/WindRose_NAPI.png",
+    "Olathe":r"Data/WindRose/WindRose_Olathe.png",
+    "Baggs":r"Data/WindRose/WindRose_Baggs.png",
+    "Cora":r"Data/WindRose/WindRose_Cora.png",
+    "Cortez":r"Data/WindRose/WindRose_Cortez.png",
+    "Gunnison":r"Data/WindRose/WindRose_Gunnison.png",
+    "Boulder":r"Data/WindRose/WindRose_Boulder.png",
+    "HUC_12":r"Data/WindRose/WindRose_HUC12.png",
+    "GrantNE":r"Data/WindRose/WindRose_GrantNE.png",
+    "Sutherland_Beans":r"Data/WindRose/WindRose_Sutherland.png",
+    "Holbrook":r"Data/WindRose/WindRose_Holbrook.png"
 }
 satellite_images = {
-    "LaPlata":"Data\SatelliteImage\LaPlata.jpg",
-    "NAPI":"Data\SatelliteImage\NAPI.jpg",
-    "Olathe":"Data\SatelliteImage\Olathe.jpg",
-    "Baggs":"Data\SatelliteImage\Baggs.jpg",
-    "Cora":"Data\SatelliteImage\Cora.jpg",
-    "Cortez":"Data\SatelliteImage\Cortez.jpg",
-    "Gunnison":"Data\SatelliteImage\Gunnison.jpg",
-    "Boulder":"Data\SatelliteImage\Boulder.jpg",
-    "HUC_12":"Data\SatelliteImage\HUC12.jpg",
-    "GrantNE":"Data\WindRose\WindRose_GrantNE.png",
-    "Sutherland_Beans":"Data\SatelliteImage\Sutherland.jpg",
-    "Holbrook":"Data\SatelliteImage\Holbrook.jpg"
+    "LaPlata":r"Data/SatelliteImage/LaPlata.jpg",
+    "NAPI":r"Data/SatelliteImage/NAPI.jpg",
+    "Olathe":r"Data/SatelliteImage/Olathe.jpg",
+    "Baggs":r"Data/SatelliteImage/Baggs.jpg",
+    "Cora":r"Data/SatelliteImage/Cora.jpg",
+    "Cortez":r"Data/SatelliteImage/Cortez.jpg",
+    "Gunnison":r"Data/SatelliteImage/Gunnison.jpg",
+    "Boulder":r"Data/SatelliteImage/Boulder.jpg",
+    "HUC_12":r"Data/SatelliteImage/HUC12.jpg",
+    "GrantNE":r"Data/SatelliteImage/Grant.jpg",
+    "Sutherland_Beans":r"Data/SatelliteImage/Sutherland.jpg",
+    "Holbrook":r"Data/SatelliteImage/Holbrook.jpg"
 }
 def get_dataframe(filePath):
     """Get the dataframe from the selected daily summary file for the pre-selected columns only."""
