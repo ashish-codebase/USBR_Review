@@ -340,9 +340,7 @@ def plot_closure(merged_df):
         ]
         components = components.dropna()
         # maxval = max(components.RN_G.max(), components.LE_H.max())
-        regression_results = linregress(
-            components.RN_G, components.LE_H
-        )
+        regression_results = linregress(components.RN_G, components.LE_H)
         slope = regression_results.slope
         intercept = regression_results.intercept
         rvalue = regression_results.rvalue
@@ -784,6 +782,8 @@ def plot_co2_comparision(merged_df):
 
 def wind_rose(merged_df):
     # Create a windrose plot
+    # Only daytime hours 7am to 7pm
+    merged_df = merged_df[(merged_df.index.hour >= 7) & (merged_df.index.hour < 19)]
     fig, ax = plt.subplots(subplot_kw={"projection": "windrose"})
     ax.bar(
         merged_df["wind_dir"],
@@ -796,11 +796,16 @@ def wind_rose(merged_df):
         bins=[0, 2, 5, 7, 10, 15, 19.99],
     )
     ax.set_title(f"Windrose: {selceted_site}")
-    ax.set_legend(title="Windrose (m/s)", loc='lower left',  bbox_to_anchor=(-0.1, -0.1), bbox_transform=ax.transAxes)
+    ax.set_legend(
+        title="Windrose (m/s)",
+        loc="lower left",
+        bbox_to_anchor=(-0.1, -0.1),
+        bbox_transform=ax.transAxes,
+    )
     col1, col2, col3 = st.columns(3)
     try:
         with col1:
-            st.markdown(f"### **Wind rose generated from the EC tower data.**")
+            st.markdown(f"#### Windrose: {selceted_site} (7am - 7pm)")
             st.pyplot(fig)
             plt.close()
     except:
@@ -808,39 +813,32 @@ def wind_rose(merged_df):
         pass
     try:
         with col2:
-            st.markdown(
-                f"### Wind Rose from the nearest weatherstation."
-            )
+            st.markdown(f"#### Windrose: Nearest weatherstation.")
             relative_path = update_summaries.windroses[f"{selceted_site}"]
             wind_rose_path = f"{script_path}\{relative_path}"
-            wind_rose_path = wind_rose_path.replace("\\","/")
+            wind_rose_path = wind_rose_path.replace("\\", "/")
             # st.markdown(f"Wind rose path: {wind_rose_path}")
             image = Image.open(wind_rose_path)
 
-            st.image(
-               image, caption=f"{selceted_site} Wind rose."
-            )
+            st.image(image, caption=f"{selceted_site} Wind rose.")
     except:
         st.text("Variable not found")
         pass
 
     try:
         with col3:
-            st.markdown(
-                f"### Satellite image of {selceted_site}."
-            )
+            st.markdown(f"#### Satellite image: {selceted_site}.")
             relative_path = update_summaries.satellite_images[selceted_site]
             satellite_img_path = f"{script_path}/{relative_path}"
-            satellite_img_path = satellite_img_path.replace("\\","/")
+            satellite_img_path = satellite_img_path.replace("\\", "/")
             # st.markdown(f"Satellite image path: {satellite_img_path}")
             image = Image.open(satellite_img_path)
 
-            st.image(
-               image, caption=f"{selceted_site} satellite image."
-            )
+            st.image(image, caption=f"{selceted_site} satellite image.")
     except:
         st.text("Variable not found")
         pass
+
 
 merged_df = pd.DataFrame()
 dbPath = f"{script_path}/Data/{selceted_site}/summaries/{selceted_site}.db"
