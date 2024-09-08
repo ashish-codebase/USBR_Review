@@ -3,6 +3,7 @@ import glob
 import os
 import datetime
 import sqlite3
+import numpy as np
 
 mod_time_readable = datetime.datetime(month=1, day=1, year=1900).date()
 today_date = datetime.datetime.today().date()
@@ -113,12 +114,16 @@ def get_dataframe(filePath):
     df = pd.read_csv(filePath, sep="\t", skiprows=[1], usecols=actual_columns)
     df["DateTime"] = pd.to_datetime(df["date"] + " " + df["time"])
     df.set_index("DateTime", inplace=True)
-    df.drop(columns=["date", "time"], inplace=True)
     df.sort_index(inplace=True)
+    for column in columnlist:
+        if not column in df.columns:
+            df[column]=np.nan
     # merged_df = merged_df[(merged_df.index >= datetime.datetime(datetime.datetime.today().year,1,1 ))]
+    df.drop(columns=["date", "time"], inplace=True)
     return df
 
 def read_db(selected_site):
+    # selected_site = sites[10]
     todaysDate = datetime.datetime.today().date()
     main_path = r"D:\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
     script_path = os.getcwd()
@@ -127,9 +132,10 @@ def read_db(selected_site):
     if os.path.exists(db_path):
         mod_time = os.path.getmtime(db_path)
         mod_time_readable = datetime.datetime.fromtimestamp(mod_time).date()
+    else:
+        mod_time_readable = datetime.datetime(month=1, day=1, year=1900).date()
 
     if mod_time_readable < todaysDate:
-
         file_pattern = f"{main_path}/{selected_site}/summaries/*Summary.txt"
         print(f"Summary files search path: {file_pattern}")
         print("")

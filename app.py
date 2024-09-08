@@ -36,7 +36,7 @@ def get_db(sqlite_file):
     return merged_df
 
 
-plot_shape = (18, 3)
+plot_shape = (18, 4)
 update_summaries.main()
 st.set_page_config(
     page_title="Daily EC data monitor",
@@ -74,15 +74,18 @@ st.text("")
 def clean_column(df, colName):
     if colName == "P_RAIN_1_1_1":
         return df
-    Q1 = df[colName].quantile(0.01)
-    Q3 = df[colName].quantile(0.99)
-    IQR = Q3 - Q1
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
-    df[colName] = df[colName].where(
-        (df[colName] >= lower_bound) & (df[colName] <= upper_bound), np.nan
-    )
-    return df[colName]
+    try:
+        Q1 = df[colName].quantile(0.1)
+        Q3 = df[colName].quantile(0.9)
+        IQR = Q3 - Q1
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+        df[colName] = df[colName].where(
+            (df[colName] >= lower_bound) & (df[colName] <= upper_bound), np.nan
+        )
+        return df[colName]
+    except:
+        return df[colName]
 
 
 def plot_ET(merged_df):
@@ -115,17 +118,17 @@ def plot_temperatures(merged_df):
 
     fig, ax = plt.subplots(figsize=plot_shape)
     ax.plot(
-        merged_df.index, merged_df[colName1] - 273.15, linewidth=1, label="Sonic (C)"
+        merged_df.index, clean_column(merged_df, colName1) - 273.15, linewidth=1, label="Sonic (C)"
     )
-    ax.plot(merged_df.index, merged_df[colName2] - 273.15, linewidth=1, label="Air (C)")
+    ax.plot(merged_df.index, clean_column(merged_df, colName2) - 273.15, linewidth=1, label="Air (C)")
     try:
-        ax.plot(merged_df.index, merged_df[colName4], linewidth=1, label="TCNR4 (C)")
+        ax.plot(merged_df.index, clean_column(merged_df, colName4), linewidth=1, label="TCNR4 (C)")
     except:
         pass
     try:
         ax.plot(
             merged_df.index,
-            merged_df[colName3] - 273.15,
+            clean_column(merged_df, colName3) - 273.15,
             linewidth=1,
             label="Canopy (C)",
         )
@@ -149,6 +152,10 @@ def plot_horizontal_SWC(merged_df):
     colName1 = "SWC_1_1_1"
     colName2 = "SWC_2_1_1"
     colName3 = "SWC_3_1_1"
+    colName4 = "SWC_4_1_1"
+    colName5 = "SWC_5_1_1"
+    colName6 = "SWC_6_1_1"
+    
     fig, ax = plt.subplots(figsize=plot_shape)
     ax.plot(
         merged_df.index,
@@ -169,12 +176,31 @@ def plot_horizontal_SWC(merged_df):
         label="SWC_3_1_1 m3/m3",
     )
 
+    ax.plot(
+        merged_df.index,
+        clean_column(merged_df, colName4),
+        linewidth=1,
+        label="SWC_4_1_1 m3/m3",
+    )
+    ax.plot(
+        merged_df.index,
+        clean_column(merged_df, colName5),
+        linewidth=1,
+        label="SWC_5_1_1 m3/m3",
+    )
+    ax.plot(
+        merged_df.index,
+        clean_column(merged_df, colName6),
+        linewidth=1,
+        label="SWC_6_1_1 m3/m3",
+    )
+
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
 
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_title(selceted_site + ": Soil water content for soil heat flux ~5 cm.")
+    ax.set_title(selceted_site + ": Soil water content Hydra Probes (all)")
     ax.legend(loc="lower left")
     st.pyplot(fig)
     plt.close()
@@ -467,40 +493,40 @@ def plot_temperature_SHF(merged_df):
     plt.close()
 
 
-def plot_profile_SWC(merged_df):
-    colName1 = "SWC_4_1_1"
-    colName2 = "SWC_5_1_1"
-    colName3 = "SWC_6_1_1"
-    fig, ax = plt.subplots(figsize=plot_shape)
-    ax.plot(
-        merged_df.index,
-        clean_column(merged_df, colName1),
-        linewidth=1,
-        label="SWC_4_1_1 m3/m3",
-    )
-    ax.plot(
-        merged_df.index,
-        clean_column(merged_df, colName2),
-        linewidth=1,
-        label="SWC_5_1_1 m3/m3",
-    )
-    ax.plot(
-        merged_df.index,
-        clean_column(merged_df, colName3),
-        linewidth=1,
-        label="SWC_6_1_1 m3/m3",
-    )
+# def plot_profile_SWC(merged_df):
+#     colName1 = "SWC_4_1_1"
+#     colName2 = "SWC_5_1_1"
+#     colName3 = "SWC_6_1_1"
+#     fig, ax = plt.subplots(figsize=plot_shape)
+#     ax.plot(
+#         merged_df.index,
+#         clean_column(merged_df, colName1),
+#         linewidth=1,
+#         label="SWC_4_1_1 m3/m3",
+#     )
+#     ax.plot(
+#         merged_df.index,
+#         clean_column(merged_df, colName2),
+#         linewidth=1,
+#         label="SWC_5_1_1 m3/m3",
+#     )
+#     ax.plot(
+#         merged_df.index,
+#         clean_column(merged_df, colName3),
+#         linewidth=1,
+#         label="SWC_6_1_1 m3/m3",
+#     )
 
-    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
-    plt.xticks(rotation=45, ha="right")
-    ax.set_xlim(date_range)
-    ax.set_title(
-        selceted_site + ": Soil water content for soil moisture profile 20, 40 & 60 cm"
-    )
-    ax.legend(loc="lower left")
-    st.pyplot(fig)
-    plt.close()
+#     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
+#     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
+#     plt.xticks(rotation=45, ha="right")
+#     ax.set_xlim(date_range)
+#     ax.set_title(
+#         selceted_site + ": Soil water content for soil moisture profile 20, 40 & 60 cm"
+#     )
+#     ax.legend(loc="lower left")
+#     st.pyplot(fig)
+#     plt.close()
 
 
 def plot_temperature_probe(merged_df):
@@ -907,7 +933,7 @@ plot_horizontal_SWC(merged_df)
 
 plot_SHF(merged_df)
 
-plot_profile_SWC(merged_df)
+# plot_profile_SWC(merged_df)
 
 
 plot_temperature_SHF(merged_df)
@@ -915,3 +941,5 @@ plot_temperature_SHF(merged_df)
 plot_temperature_probe(merged_df)
 
 plot_soil_profile_temperature(merged_df)
+
+# st.dataframe(merged_df)
