@@ -201,6 +201,7 @@ def plot_horizontal_SWC(merged_df):
     ax.set_xlim(date_range)
     ax.set_title(selceted_site + ": Soil water content Hydra Probes (all)")
     ax.legend(loc="lower left")
+    ax.invert_yaxis()
     st.pyplot(fig)
     plt.close()
 
@@ -314,7 +315,7 @@ def plot_co2signal(merged_df):
     plt.close()
 
 
-async def plot_SHF(merged_df):
+def plot_SHF(merged_df):
     colName1 = "SHF_1_1_1"
     colName2 = "SHF_2_1_1"
     colName3 = "SHF_3_1_1"
