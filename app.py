@@ -293,6 +293,7 @@ def plot_RH(merged_df):
     ax.set_xlim(date_range)
     ax.set_title(selceted_site + ": Relative humidity from Vaisala and gas analyzer.")
     ax.legend(loc="lower left")
+    ax.grid(True)
     st.pyplot(fig)
     plt.close()
 
