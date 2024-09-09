@@ -14,7 +14,7 @@ import glob
 from windrose import WindroseAxes
 from datetime import datetime, timedelta
 from PIL import Image
-
+import asyncio
 
 selceted_site = ""
 
@@ -64,9 +64,9 @@ st.markdown(f"## **{selceted_site}**:-")
 st.markdown(
     f"- This is raw and uncorrected data and should be used only to review sensor's functionality."
 )
-st.markdown(
-    f"- **Date range:** {datetime.today().date() - timedelta(days=days_limit)} - {datetime.today().date()}"
-)
+date_range_placeholder = st.empty()
+date_range_placeholder.text("")
+
 st.text("")
 st.text("")
 
@@ -313,7 +313,7 @@ def plot_co2signal(merged_df):
     plt.close()
 
 
-def plot_SHF(merged_df):
+async def plot_SHF(merged_df):
     colName1 = "SHF_1_1_1"
     colName2 = "SHF_2_1_1"
     colName3 = "SHF_3_1_1"
@@ -343,8 +343,9 @@ def plot_SHF(merged_df):
     ax.set_xlim(date_range)
     ax.set_title(selceted_site + ": Soil Heat flux 1,2 & 3 (W/m2)")
     ax.legend(loc="lower left")
-    st.pyplot(fig)
-    plt.close()
+    return fig
+    # st.pyplot(fig)
+    # plt.close()
 
 
 def plot_closure(merged_df):
@@ -417,46 +418,7 @@ def plot_closure(merged_df):
     ax.set_xlabel("RN-G (W/m2)")
     ax.set_ylabel("LE + H (W/m2)")
     ax.legend(loc="upper right")
-
     return fig
-
-
-# def plot_soil_profile_temperature(merged_df):
-#     colName1 = "TS_4_1_1"
-#     colName2 = "TS_5_1_1"
-#     colName3 = "TS_6_1_1"
-#     fig, ax = plt.subplots(figsize=plot_shape)
-#     ax.plot(
-#         merged_df.index,
-#         clean_column(merged_df, colName1) - 273.15,
-#         linewidth=1,
-#         label="TS_4_1_1 (C)",
-#     )
-#     ax.plot(
-#         merged_df.index,
-#         clean_column(merged_df, colName2) - 273.15,
-#         linewidth=1,
-#         label="TS_5_1_1 (C)",
-#     )
-#     ax.plot(
-#         merged_df.index,
-#         clean_column(merged_df, colName3) - 273.15,
-#         linewidth=1,
-#         label="TS_6_1_1 (C)",
-#     )
-
-#     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
-#     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
-#     plt.xticks(rotation=45, ha="right")
-#     ax.set_xlim(date_range)
-#     ax.set_title(
-#         selceted_site
-#         + ": Soil temperature from hydra probe; Soil profile measurement 20, 40 & 60 cm"
-#     )
-#     ax.legend(loc="lower left")
-#     st.pyplot(fig)
-#     plt.close()
-
 
 def plot_temperature_SHF(merged_df):
     colName1 = "TS_1_1_1"
@@ -759,8 +721,6 @@ def plot_precip(merged_df):
 
 
 def plot_co2_comparision(merged_df):
-    # url = ("https://seer.sct.embrapa.br/index.php/agrometeoros/article/view/26527/14623")
-    # st.markdown(f"[Conversion of PPFD umol/m2/s to W/m2 for 400 - 700 nm wavelength (eq. 38). ]({url})")
     colName1 = "co2_molar_density"
     colName2 = "air_pressure"
     colName3 = "air_temperature"
@@ -868,6 +828,7 @@ merged_df = merged_df[
     (merged_df.index >= date_range[0]) & (merged_df.index <= end_date)
 ]
 
+date_range_placeholder.markdown(f"- **Displayed date range:** {datetime.date(merged_df.index[0])} to {datetime.date(merged_df.index[-1])}")
 plt.rcParams["figure.facecolor"] = "lightcyan"
 # Setting the axes background color
 plt.rcParams["axes.facecolor"] = "lightcyan"
@@ -892,20 +853,12 @@ wind_rose(merged_df)
 
 plot_ppdf_swin(merged_df)
 
-
 plot_co2_comparision(merged_df)
-
-# plot_airpresure(merged_df)
 
 # outer area color
 plt.rcParams["figure.facecolor"] = "whitesmoke"
 # Setting the axes background color
 plt.rcParams["axes.facecolor"] = "whitesmoke"
-
-
-# plot_albedo(merged_df)
-
-# plot_vaporpressure(merged_df)
 
 plot_EB_components(merged_df)
 
@@ -922,12 +875,3 @@ plot_temperature_SHF(merged_df)
 plot_temperature_probe(merged_df)
 
 plot_SHF(merged_df)
-
-# plot_profile_SWC(merged_df)
-
-
-
-
-# plot_soil_profile_temperature(merged_df)
-
-# st.dataframe(merged_df)
