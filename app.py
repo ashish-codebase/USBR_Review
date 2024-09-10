@@ -104,6 +104,7 @@ def plot_ET(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
+    ax.set_ylim(0,10)
     ax.set_title(selceted_site + f": Daily cumulative ET (mm).")
     ax.legend(loc="lower left")
     st.pyplot(fig)
@@ -143,6 +144,7 @@ def plot_temperatures(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
+    ax.set_ylim(0,45)
     ax.legend(loc="lower left")
     st.pyplot(fig)
     plt.close()
@@ -199,6 +201,7 @@ def plot_horizontal_SWC(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
+    ax.set_ylim(0,1)
     ax.set_title(selceted_site + ": Soil water content Hydra Probes (all)")
     ax.legend(loc="lower left")
     ax.invert_yaxis()
@@ -343,6 +346,7 @@ def plot_SHF(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
+    ax.set_ylim(-50,100)
     ax.set_title(selceted_site + ": Soil Heat flux 1,2 & 3 (W/m2)")
     ax.legend(loc="lower left")
     # return fig
@@ -473,6 +477,7 @@ def plot_temperature_SHF(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
+    ax.set_ylim(0,45)
     ax.set_title(selceted_site + ": Soil temperature from all hydra probes.")
     ax.legend(loc="lower left")
     st.pyplot(fig)
@@ -507,8 +512,9 @@ def plot_temperature_probe(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
+    ax.set_ylim(0,45)
     ax.set_title(
-        selceted_site + ": Soil temperature from all temperature Probes"
+        selceted_site + ": Soil temperature from (LI-7800-180) probes"
     )
     ax.legend(loc="lower left")
     st.pyplot(fig)
@@ -537,6 +543,7 @@ def plot_ppdf_swin(merged_df):
         label="SWIN (W/m2)",
     )
     ax.set_xlim(date_range)
+    ax.set_ylim(-25,1100)
     plt.xticks(rotation=45, ha="right")
     ax.set_title(selceted_site + ": Quantum sensor & Shortwave_In")
     ax.legend(loc="lower left")
@@ -579,6 +586,7 @@ def plot_solar_components(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
+    ax.set_ylim(-25,1100)
     ax.set_title(
         selceted_site
         + ": "
@@ -665,6 +673,7 @@ def plot_precip(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
+    ax.set_ylim(0,2.54*2)
     ax.set_title(selceted_site + ": Liquid precipitation cumulative daily (cm).")
     ax.legend(loc="lower left")
     st.pyplot(fig)
@@ -817,9 +826,9 @@ plot_solar_components(merged_df)
 
 plot_ET(merged_df)
 
-plot_temperatures(merged_df)
-
 plot_horizontal_SWC(merged_df)
+
+plot_temperatures(merged_df)
 
 plot_temperature_SHF(merged_df)
 
