@@ -16,8 +16,10 @@ from datetime import datetime, timedelta
 from PIL import Image
 import asyncio
 
-selceted_site = ""
+plot_shape = (18, 4)
+update_summaries.main()
 
+selceted_site = ""
 
 @st.cache_data
 def get_parquet(parquet_file):
@@ -36,8 +38,6 @@ def get_db(sqlite_file):
     return merged_df
 
 
-plot_shape = (18, 4)
-update_summaries.main()
 st.set_page_config(
     page_title="Daily EC data monitor",
     layout="wide",
@@ -345,9 +345,9 @@ def plot_SHF(merged_df):
     ax.set_xlim(date_range)
     ax.set_title(selceted_site + ": Soil Heat flux 1,2 & 3 (W/m2)")
     ax.legend(loc="lower left")
-    return fig
-    # st.pyplot(fig)
-    # plt.close()
+    # return fig
+    st.pyplot(fig)
+    plt.close()
 
 
 def plot_closure(merged_df):
@@ -595,57 +595,6 @@ def plot_solar_components(merged_df):
     plt.close()
 
 
-def plot_EB_components(merged_df):
-    colName1 = "RN_1_1_1"
-    colName2 = "SHF_1_1_1"
-    colName3 = "H"
-    colName4 = "LE"
-    fig, ax = plt.subplots(figsize=plot_shape)
-    ax.plot(
-        merged_df.index,
-        clean_column(merged_df, colName1),
-        linewidth=1,
-        label="RN (W/m2)",
-    )
-    ax.plot(
-        merged_df.index,
-        clean_column(merged_df, colName2),
-        linewidth=1,
-        label="G (W/m2)",
-    )
-    ax.plot(
-        merged_df.index,
-        clean_column(merged_df, colName3),
-        linewidth=1,
-        label="H (W/m2)",
-    )
-    ax.plot(
-        merged_df.index,
-        clean_column(merged_df, colName4),
-        linewidth=1,
-        label="LE (W/m2)",
-    )
-
-    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
-    plt.xticks(rotation=45, ha="right")
-    ax.set_xlim(date_range)
-    ax.set_title(
-        selceted_site
-        + ": "
-        + colName1
-        + "; "
-        + colName2
-        + "; "
-        + colName3
-        + "; "
-        + colName4
-    )
-    ax.legend(loc="lower left")
-    st.pyplot(fig)
-    plt.close()
-
-
 def plot_vaporpressure(merged_df):
     colName1 = "e"
     colName2 = "es"
@@ -862,7 +811,7 @@ plt.rcParams["figure.facecolor"] = "whitesmoke"
 # Setting the axes background color
 plt.rcParams["axes.facecolor"] = "whitesmoke"
 
-plot_EB_components(merged_df)
+# plot_EB_components(merged_df)
 
 plot_solar_components(merged_df)
 
