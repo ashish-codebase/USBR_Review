@@ -104,7 +104,7 @@ def plot_ET(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(0,10)
+    ax.set_ylim(0,12)
     ax.set_title(selceted_site + f": Daily cumulative ET (mm).")
     ax.legend(loc="lower left")
     st.pyplot(fig)
