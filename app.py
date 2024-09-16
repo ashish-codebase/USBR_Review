@@ -414,11 +414,30 @@ def plot_closure(merged_df):
             fontsize=12,
             ha="left",
         )
+        zero_x = components.RN_G.values.reshape(-1, 1)
+        zero_y = components.LE_H.values.reshape(-1, 1)
+        zero_model = LinearRegression(fit_intercept=False)
+        zero_model.fit(zero_x, zero_y)
+        zero_slope = zero_model.coef_[0]
+        zero_y_pred = zero_slope * zero_x
+        zero_r_squared = zero_model.score(zero_x, zero_y)
+        ax.plot(zero_x, zero_y_pred, color='blue', label='Regression line zero offset')
+        zero_eq_string = f"Zero offset slope = {round(zero_slope[0],4)};\n R-Sq. = {round(zero_r_squared,4)}"
+        ax.text(
+            0.1,
+            0.55,
+            transform=ax.transAxes,
+            s=zero_eq_string,
+            color="blue",
+            fontsize=12,
+            ha="left",
+        )
         # ax.set_xlim(-50,maxval*1.1)
         # ax.set_ylim(-50, maxval*1.1)
         ax.set_xlim(-50, 800)
         ax.set_ylim(-50, 800)
-    except:
+    except Exception as ex:
+        print(ex)
         pass
     ax.set_title(selceted_site + ": " + "Energy balance closure (7am - 7pm)")
     ax.set_xlabel("RN-G (W/m2)")
