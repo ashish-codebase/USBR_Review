@@ -757,7 +757,7 @@ def wind_rose(merged_df):
     col1, col2, col3 = st.columns(3)
     try:
         with col1:
-            st.markdown(f"#### Windrose: {selceted_site} (7am - 7pm)")
+            st.markdown(f"**Windrose: {selceted_site} (7am - 7pm).**")
             st.pyplot(fig)
             plt.close()
     except:
@@ -765,7 +765,7 @@ def wind_rose(merged_df):
         pass
     try:
         with col2:
-            st.markdown(f"#### Windrose: Nearest weatherstation.")
+            st.markdown(f"**Windrose: Nearest weatherstation.**")
             relative_path = update_summaries.windroses[f"{selceted_site}"]
             wind_rose_path = f"{script_path}\{relative_path}"
             wind_rose_path = wind_rose_path.replace("\\", "/")
@@ -779,7 +779,7 @@ def wind_rose(merged_df):
 
     try:
         with col3:
-            st.markdown(f"#### Satellite image: {selceted_site}.")
+            st.markdown(f"**Satellite image: {selceted_site}.**")
             relative_path = update_summaries.satellite_images[selceted_site]
             satellite_img_path = f"{script_path}/{relative_path}"
             satellite_img_path = satellite_img_path.replace("\\", "/")
