@@ -14,8 +14,7 @@ import glob
 from windrose import WindroseAxes
 from datetime import datetime, timedelta
 from PIL import Image
-import asyncio
-
+import math
 plot_shape = (18, 4)
 update_summaries.main()
 
@@ -50,6 +49,16 @@ with st.sidebar:
     st.title("Navigation")
     selceted_site = st.radio("Select EC site:", sites)
     days_limit = st.number_input("Enter days to show:", step=7, min_value=1, value=21)
+
+    st.markdown("---")
+    st.header("Sensor separation calculator:")
+    separation = st.number_input("Sonic-Gas analyzer distance (cm):", min_value=0.0, max_value=25.0, value=20.0, step=1.0)
+    angle_from_north = st.number_input("Enter Sonic to Gas analyzer angle (0-360):", min_value=0.0, max_value=359.9, value=275.0, step=1.0)
+    sensor_east = separation * math.sin(math.radians(angle_from_north))
+    sensor_west = separation * math.cos(math.radians(angle_from_north))
+    st.markdown(f"Eastward separation : **{round(sensor_east, 2)} cm**.")
+    st.markdown(f"Northward spearation: **{round(sensor_west,2)} cm**.")
+    st.markdown("---")
 
 ticks = np.clip(int(days_limit / 10), 1, 15)
 
