@@ -401,10 +401,10 @@ def plot_closure(merged_df):
         plt.colorbar(scatter, ax=ax, label="EBR (unitless)")
         ax.plot(x_fit, y_fit, color="red", label="Regression line")
         # Create the equation string
-        equation = f"y = {slope:.2f}x + {intercept:.2f}\n$R^2$={round(rvalue**2,4)}"
+        equation = f"Linear regression:\n    y = {slope:.2f}x + {intercept:.2f}\n    $R^2$={round(rvalue**2,4)}"
         # Annotate the plot with the equation
         ax.text(
-            0.1,
+            0.05,
             0.9,
             transform=ax.transAxes,
             s=equation,
@@ -414,8 +414,8 @@ def plot_closure(merged_df):
         )
         eq_string = r"$EBR = \frac {\sum{(LE+H)}}{\sum{(RN-G)}} =$"
         ax.text(
-            0.1,
-            0.7,
+            0.05,
+            0.8,
             transform=ax.transAxes,
             s=f"Energy Balance Ratio:-\n    {eq_string} {eb_ratio}",
             color="brown",
@@ -430,10 +430,10 @@ def plot_closure(merged_df):
         zero_y_pred = zero_slope * zero_x
         zero_r_squared = zero_model.score(zero_x, zero_y)
         ax.plot(zero_x, zero_y_pred, color='blue', label='Regression line zero offset')
-        zero_eq_string = f"Zero offset slope = {round(zero_slope[0],4)};\n R-Sq. = {round(zero_r_squared,4)}"
+        zero_eq_string = f"Zero offset slope = {round(zero_slope[0],4)};\n     $R^2$ = {round(zero_r_squared,4)}"
         ax.text(
-            0.1,
-            0.55,
+            0.05,
+            0.7,
             transform=ax.transAxes,
             s=zero_eq_string,
             color="blue",
