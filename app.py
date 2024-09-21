@@ -373,10 +373,8 @@ def plot_closure(merged_df):
         eb_ratio_array = np.clip(eb_ratio_array, -0.5, 1.5)
         components["EB_Array"] = eb_ratio_array
         eb_ratio = round((components["LE_H"].sum() / components["RN_G"].sum()), 4)
-        # components = components[
-        #     (components.index.hour >= 7) & (components.index.hour < 19)
-        # ]
         components = components[(components["daytime"]> 0)]
+        components = components[(components["u*"]> 0.2)]
         components = components.dropna()
         # maxval = max(components.RN_G.max(), components.LE_H.max())
         regression_results = linregress(components.RN_G, components.LE_H)
@@ -445,7 +443,7 @@ def plot_closure(merged_df):
     except Exception as ex:
         print(ex)
         pass
-    ax.set_title(selceted_site + ": " + "Energy balance closure (daytime hours)")
+    ax.set_title(selceted_site + ": " + "Energy balance closure (daytime hours; u*>0.2)")
     ax.set_xlabel("RN-G (W/m2)")
     ax.set_ylabel("LE + H (W/m2)")
     ax.legend(loc="upper right")
@@ -741,7 +739,8 @@ def plot_co2_comparision(merged_df):
 def wind_rose(merged_df):
     # Create a windrose plot
     # Only daytime hours 7am to 7pm
-    merged_df = merged_df[(merged_df.index.hour >= 7) & (merged_df.index.hour < 19)]    
+    # merged_df = merged_df[(merged_df.index.hour >= 7) & (merged_df.index.hour < 19)]   
+    merged_df = merged_df[(merged_df["daytime"]> 0)] 
     fig, ax = plt.subplots(subplot_kw={"projection": "windrose"})
     ax.bar(
         merged_df["wind_dir"],
@@ -763,7 +762,7 @@ def wind_rose(merged_df):
     col1, col2, col3 = st.columns(3)
     try:
         with col1:
-            st.markdown(f"**Windrose: {selceted_site} (7am - 7pm).**")
+            st.markdown(f"**Windrose: {selceted_site} (daytime hours).**")
             st.pyplot(fig)
             plt.close()
     except:

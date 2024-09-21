@@ -55,6 +55,7 @@ columnlist = [
     "TS_7_1_1",
     "TS_8_1_1",
     "TS_9_1_1",
+    "u*"
     "VPD",
     "water_vapor_density",
     "wind_dir",
