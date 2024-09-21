@@ -60,6 +60,7 @@ columnlist = [
     "wind_dir",
     "wind_speed"
 ]
+
 sites = [
     "Olathe",
     "Boulder",
