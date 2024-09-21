@@ -836,6 +836,7 @@ with col2:
 
 wind_rose(merged_df)
 
+st.header("Additional sensors data:-")
 plot_ppdf_swin(merged_df)
 
 plot_co2_comparision(merged_df)
