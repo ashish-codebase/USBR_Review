@@ -64,7 +64,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 # st.markdown("### Daily EC summary data from all online towers in CO, WY, NM & NE")
-st.markdown(f"## **{selceted_site_bold}**:-")
+st.markdown(f"## {selceted_site_bold} EC tower data:-")
 st.markdown(
     f"- This is raw and uncorrected data and should be used only to review sensor's functionality."
 )
