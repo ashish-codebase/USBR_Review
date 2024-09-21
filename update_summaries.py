@@ -55,7 +55,7 @@ columnlist = [
     "TS_7_1_1",
     "TS_8_1_1",
     "TS_9_1_1",
-    "u*"
+    "u*",
     "VPD",
     "water_vapor_density",
     "wind_dir",
@@ -64,12 +64,12 @@ columnlist = [
 
 sites = [
     "Olathe",
-    "Boulder",
     "Cora",
+    "Boulder",
     "NAPI",
     "LaPlata",
-    "Baggs",
     "Cortez",
+    "Baggs",
     "Gunnison",
     "HUC_12",
     "GrantNE",

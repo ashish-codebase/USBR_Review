@@ -43,7 +43,7 @@ sites = update_summaries.sites
 with st.sidebar:
     st.title("Navigation")
     selceted_site = st.radio("Select EC site:", sites)
-    days_limit = st.number_input("Enter days to show:", step=7, min_value=1, value=42)   
+    days_limit = st.number_input("Enter days to show:", step=7, min_value=1, value=28)   
     st.markdown("---")
     st.header("Sensor separation calculator:")
     separation = st.number_input("Sonic-Gas analyzer distance (cm):", min_value=0.0, max_value=25.0, value=20.0, step=1.0)
@@ -368,13 +368,13 @@ def plot_closure(merged_df):
         components["RN_G"] = Yvals
         components["LE_H"] = Xvals
         components["daytime"] = clean_column(merged_df, "daytime")
-
+        components["u*"] = clean_column(merged_df, "u*")
         eb_ratio_array = components["LE_H"].values / components["RN_G"].values
         eb_ratio_array = np.clip(eb_ratio_array, -0.5, 1.5)
         components["EB_Array"] = eb_ratio_array
         eb_ratio = round((components["LE_H"].sum() / components["RN_G"].sum()), 4)
         components = components[(components["daytime"]> 0)]
-        components = components[(components["u*"]> 0.2)]
+        components = components[(components["u*"]>= 0.15)]
         components = components.dropna()
         # maxval = max(components.RN_G.max(), components.LE_H.max())
         regression_results = linregress(components.RN_G, components.LE_H)
@@ -443,7 +443,7 @@ def plot_closure(merged_df):
     except Exception as ex:
         print(ex)
         pass
-    ax.set_title(selceted_site + ": " + "Energy balance closure (daytime hours; u*>0.2)")
+    ax.set_title(selceted_site + ": " + "Energy balance closure (daytime hours; Friction velocity u*>=0.15 m/s)")
     ax.set_xlabel("RN-G (W/m2)")
     ax.set_ylabel("LE + H (W/m2)")
     ax.legend(loc="upper right")
