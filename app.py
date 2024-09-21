@@ -43,7 +43,7 @@ sites = update_summaries.sites
 with st.sidebar:
     st.title("Navigation")
     selceted_site = st.radio("Select EC site:", sites)
-    days_limit = st.number_input("Enter days to show:", step=7, min_value=1, value=21)   
+    days_limit = st.number_input("Enter days to show:", step=7, min_value=1, value=42)   
     st.markdown("---")
     st.header("Sensor separation calculator:")
     separation = st.number_input("Sonic-Gas analyzer distance (cm):", min_value=0.0, max_value=25.0, value=20.0, step=1.0)
