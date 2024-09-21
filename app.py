@@ -10,16 +10,19 @@ from sklearn.metrics import r2_score
 import update_summaries
 from scipy.stats import linregress
 import sqlite3
-import glob
+# import glob
 from windrose import WindroseAxes
 from datetime import datetime, timedelta
 from PIL import Image
 import math
+
 plot_shape = (18, 4)
 update_summaries.main()
 
 selceted_site = ""
 selceted_site_bold = ""
+
+
 def get_db(sqlite_file):
     db_path = sqlite_file
     conn = sqlite3.connect(db_path)
@@ -43,12 +46,24 @@ sites = update_summaries.sites
 with st.sidebar:
     st.title("Navigation")
     selceted_site = st.radio("Select EC site:", sites)
-    selceted_site_bold = "$\mathbf{"+ selceted_site+"}$"
-    days_limit = st.number_input("Enter days to show:", step=7, min_value=1, value=28)   
+    selceted_site_bold = "$\mathbf{" + selceted_site + "}$"
+    days_limit = st.number_input("Enter days to show:", step=7, min_value=1, value=28)
     st.markdown("---")
     st.header("Sensor separation calculator:")
-    separation = st.number_input("Sonic-Gas analyzer distance (cm):", min_value=0.0, max_value=25.0, value=20.0, step=1.0)
-    angle_from_north = st.number_input("Enter Sonic to Gas analyzer angle (0-360):", min_value=0.0, max_value=359.9, value=275.0, step=1.0)
+    separation = st.number_input(
+        "Sonic-Gas analyzer distance (cm):",
+        min_value=0.0,
+        max_value=25.0,
+        value=20.0,
+        step=1.0,
+    )
+    angle_from_north = st.number_input(
+        "Enter Sonic to Gas analyzer angle (0-360):",
+        min_value=0.0,
+        max_value=359.9,
+        value=275.0,
+        step=1.0,
+    )
     sensor_east = separation * math.sin(math.radians(angle_from_north))
     sensor_west = separation * math.cos(math.radians(angle_from_north))
     st.markdown(f"Eastward separation : **{round(sensor_east, 2)} cm**.")
@@ -108,7 +123,7 @@ def plot_ET(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(0,12)
+    ax.set_ylim(0, 12)
     ax.set_title(selceted_site_bold + f": Daily cumulative ET (mm).")
     ax.legend(loc="lower left")
     st.pyplot(fig)
@@ -123,11 +138,24 @@ def plot_temperatures(merged_df):
 
     fig, ax = plt.subplots(figsize=plot_shape)
     ax.plot(
-        merged_df.index, clean_column(merged_df, colName1) - 273.15, linewidth=1, label="Sonic (C)"
+        merged_df.index,
+        clean_column(merged_df, colName1) - 273.15,
+        linewidth=1,
+        label="Sonic (C)",
     )
-    ax.plot(merged_df.index, clean_column(merged_df, colName2) - 273.15, linewidth=1, label="Air (C)")
+    ax.plot(
+        merged_df.index,
+        clean_column(merged_df, colName2) - 273.15,
+        linewidth=1,
+        label="Air (C)",
+    )
     try:
-        ax.plot(merged_df.index, clean_column(merged_df, colName4), linewidth=1, label="TCNR4 (C)")
+        ax.plot(
+            merged_df.index,
+            clean_column(merged_df, colName4),
+            linewidth=1,
+            label="TCNR4 (C)",
+        )
     except:
         pass
     try:
@@ -148,7 +176,7 @@ def plot_temperatures(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(0,45)
+    ax.set_ylim(0, 45)
     ax.legend(loc="lower left")
     st.pyplot(fig)
     plt.close()
@@ -161,7 +189,7 @@ def plot_horizontal_SWC(merged_df):
     colName4 = "SWC_4_1_1"
     colName5 = "SWC_5_1_1"
     colName6 = "SWC_6_1_1"
-    
+
     fig, ax = plt.subplots(figsize=plot_shape)
     ax.plot(
         merged_df.index,
@@ -205,7 +233,7 @@ def plot_horizontal_SWC(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(0,1)
+    ax.set_ylim(0, 1)
     ax.set_title(selceted_site_bold + ": Soil water content Hydra Probes (all)")
     ax.legend(loc="lower left")
     ax.invert_yaxis()
@@ -299,7 +327,9 @@ def plot_RH(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_title(selceted_site_bold + ": Relative humidity from Vaisala and gas analyzer.")
+    ax.set_title(
+        selceted_site_bold + ": Relative humidity from Vaisala and gas analyzer."
+    )
     ax.legend(loc="lower left")
     ax.grid(True)
     st.pyplot(fig)
@@ -350,7 +380,7 @@ def plot_SHF(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(-50,100)
+    ax.set_ylim(-50, 100)
     ax.set_title(selceted_site_bold + ": Soil Heat flux 1,2 & 3 (W/m2)")
     ax.legend(loc="lower left")
     # return fig
@@ -374,8 +404,8 @@ def plot_closure(merged_df):
         eb_ratio_array = np.clip(eb_ratio_array, -0.5, 1.5)
         components["EB_Array"] = eb_ratio_array
         eb_ratio = round((components["LE_H"].sum() / components["RN_G"].sum()), 4)
-        components = components[(components["daytime"]> 0)]
-        components = components[(components["u*"]>= 0.15)]
+        components = components[(components["daytime"] > 0)]
+        components = components[(components["u*"] >= 0.15)]
         components = components.dropna()
         # maxval = max(components.RN_G.max(), components.LE_H.max())
         regression_results = linregress(components.RN_G, components.LE_H)
@@ -426,7 +456,7 @@ def plot_closure(merged_df):
         zero_slope = zero_model.coef_[0]
         zero_y_pred = zero_slope * zero_x
         zero_r_squared = zero_model.score(zero_x, zero_y)
-        ax.plot(zero_x, zero_y_pred, color='blue', label='Regression line zero offset')
+        ax.plot(zero_x, zero_y_pred, color="blue", label="Regression line zero offset")
         zero_eq_string = f"Zero offset slope = {round(zero_slope[0],4)};\n     $R^2$ = {round(zero_r_squared,4)}"
         ax.text(
             0.05,
@@ -444,11 +474,16 @@ def plot_closure(merged_df):
     except Exception as ex:
         print(ex)
         pass
-    ax.set_title(selceted_site_bold + ": " + "Energy balance closure (daytime hours; Friction velocity u*>=0.15 m/s)")
+    ax.set_title(
+        selceted_site_bold
+        + ": "
+        + "Energy balance closure (daytime hours; Friction velocity u*>=0.15 m/s)"
+    )
     ax.set_xlabel("RN-G (W/m2)")
     ax.set_ylabel("LE + H (W/m2)")
     ax.legend(loc="upper right")
     return fig
+
 
 def plot_temperature_SHF(merged_df):
     colName1 = "TS_1_1_1"
@@ -496,12 +531,11 @@ def plot_temperature_SHF(merged_df):
         label="TS_6_1_1 (C)",
     )
 
-
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(0,45)
+    ax.set_ylim(0, 45)
     ax.set_title(f"{selceted_site_bold}: Soil temperature from all hydra probes.")
     ax.legend(loc="lower left")
     st.pyplot(fig)
@@ -536,10 +570,8 @@ def plot_temperature_probe(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(0,45)
-    ax.set_title(
-        selceted_site_bold + ": Soil temperature from (LI-7800-180) probes"
-    )
+    ax.set_ylim(0, 45)
+    ax.set_title(selceted_site_bold + ": Soil temperature from (LI-7800-180) probes")
     ax.legend(loc="lower left")
     st.pyplot(fig)
     plt.close()
@@ -567,7 +599,7 @@ def plot_ppdf_swin(merged_df):
         label="SWIN (W/m2)",
     )
     ax.set_xlim(date_range)
-    ax.set_ylim(-25,1100)
+    ax.set_ylim(-25, 1100)
     plt.xticks(rotation=45, ha="right")
     ax.set_title(selceted_site_bold + ": Quantum sensor & Shortwave_In")
     ax.legend(loc="lower left")
@@ -610,7 +642,7 @@ def plot_solar_components(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(-25,1100)
+    ax.set_ylim(-25, 1100)
     ax.set_title(
         selceted_site_bold
         + ": "
@@ -658,7 +690,6 @@ def plot_airpresure(merged_df):
     colName = "air_pressure"
     fig, ax = plt.subplots(figsize=plot_shape)
     ax.plot(merged_df.index, merged_df[colName], linewidth=1)
-
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
@@ -673,7 +704,6 @@ def plot_albedo(merged_df):
         colName = "ALB_1_1_1"
         fig, ax = plt.subplots(figsize=plot_shape)
         ax.plot(merged_df.index, clean_column(merged_df, colName), linewidth=1)
-
         ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
         plt.xticks(rotation=45, ha="right")
@@ -697,7 +727,7 @@ def plot_precip(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(0,2.54*2)
+    ax.set_ylim(0, 2.54 * 2)
     ax.set_title(selceted_site_bold + ": Liquid precipitation cumulative daily (cm).")
     ax.legend(loc="lower left")
     st.pyplot(fig)
@@ -731,7 +761,9 @@ def plot_co2_comparision(merged_df):
     )
     ax.set_xlim(date_range)
     plt.xticks(rotation=45, ha="right")
-    ax.set_title(selceted_site_bold + ": LI-7500 CO2 molar density & CO2 number density")
+    ax.set_title(
+        selceted_site_bold + ": LI-7500 CO2 molar density & CO2 number density"
+    )
     ax.legend()
     st.pyplot(fig)
     plt.close()
@@ -739,9 +771,7 @@ def plot_co2_comparision(merged_df):
 
 def wind_rose(merged_df):
     # Create a windrose plot
-    # Only daytime hours 7am to 7pm
-    # merged_df = merged_df[(merged_df.index.hour >= 7) & (merged_df.index.hour < 19)]   
-    merged_df = merged_df[(merged_df["daytime"]> 0)] 
+    merged_df = merged_df[(merged_df["daytime"] > 0)]
     fig, ax = plt.subplots(subplot_kw={"projection": "windrose"})
     ax.bar(
         merged_df["wind_dir"],
@@ -775,7 +805,6 @@ def wind_rose(merged_df):
             relative_path = update_summaries.windroses[f"{selceted_site}"]
             wind_rose_path = f"{script_path}\{relative_path}"
             wind_rose_path = wind_rose_path.replace("\\", "/")
-            # st.markdown(f"Wind rose path: {wind_rose_path}")
             image = Image.open(wind_rose_path)
 
             st.image(image, caption=f"{selceted_site_bold} Wind rose.")
@@ -813,7 +842,9 @@ merged_df = merged_df[
     (merged_df.index >= date_range[0]) & (merged_df.index <= end_date)
 ]
 
-date_range_placeholder.markdown(f"- **Displayed date range:** {datetime.date(merged_df.index[0])} to {datetime.date(merged_df.index[-1])}")
+date_range_placeholder.markdown(
+    f"- **Displayed date range:** {datetime.date(merged_df.index[0])} to {datetime.date(merged_df.index[-1])}"
+)
 plt.rcParams["figure.facecolor"] = "lightcyan"
 # Setting the axes background color
 plt.rcParams["axes.facecolor"] = "lightcyan"
@@ -844,8 +875,6 @@ plot_co2_comparision(merged_df)
 plt.rcParams["figure.facecolor"] = "whitesmoke"
 # Setting the axes background color
 plt.rcParams["axes.facecolor"] = "whitesmoke"
-
-# plot_EB_components(merged_df)
 
 st.header("Additional sensors data:-")
 
