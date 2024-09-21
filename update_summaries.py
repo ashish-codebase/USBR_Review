@@ -64,8 +64,8 @@ columnlist = [
 sites = [
     "Olathe",
     "Boulder",
-    "NAPI",
     "Cora",
+    "NAPI",
     "LaPlata",
     "Baggs",
     "Cortez",
