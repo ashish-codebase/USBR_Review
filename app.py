@@ -20,11 +20,6 @@ update_summaries.main()
 
 selceted_site = ""
 
-@st.cache_data
-def get_parquet(parquet_file):
-    return pd.read_parquet(parquet_file)
-
-
 def get_db(sqlite_file):
     db_path = sqlite_file
     conn = sqlite3.connect(db_path)
@@ -62,7 +57,7 @@ with st.sidebar:
 ticks = np.clip(int(days_limit / 10), 1, 15)
 
 script_path = os.getcwd()
-all_files = glob.glob(script_path + "**/**/*", recursive=True)
+# all_files = glob.glob(script_path + "**/**/*", recursive=True)
 st.markdown(
     "<h1 style='text-align: center; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
     unsafe_allow_html=True,
@@ -372,13 +367,16 @@ def plot_closure(merged_df):
         Xvals = clean_column(merged_df, "LE") + clean_column(merged_df, "H")
         components["RN_G"] = Yvals
         components["LE_H"] = Xvals
+        components["daytime"] = clean_column(merged_df, "daytime")
+
         eb_ratio_array = components["LE_H"].values / components["RN_G"].values
         eb_ratio_array = np.clip(eb_ratio_array, -0.5, 1.5)
         components["EB_Array"] = eb_ratio_array
         eb_ratio = round((components["LE_H"].sum() / components["RN_G"].sum()), 4)
-        components = components[
-            (components.index.hour >= 7) & (components.index.hour < 19)
-        ]
+        # components = components[
+        #     (components.index.hour >= 7) & (components.index.hour < 19)
+        # ]
+        components = components[(components["daytime"]> 0)]
         components = components.dropna()
         # maxval = max(components.RN_G.max(), components.LE_H.max())
         regression_results = linregress(components.RN_G, components.LE_H)
@@ -442,12 +440,12 @@ def plot_closure(merged_df):
         )
         # ax.set_xlim(-50,maxval*1.1)
         # ax.set_ylim(-50, maxval*1.1)
-        ax.set_xlim(-50, 800)
-        ax.set_ylim(-50, 800)
+        ax.set_xlim(-100, 900)
+        ax.set_ylim(-100, 900)
     except Exception as ex:
         print(ex)
         pass
-    ax.set_title(selceted_site + ": " + "Energy balance closure (7am - 7pm)")
+    ax.set_title(selceted_site + ": " + "Energy balance closure (daytime hours)")
     ax.set_xlabel("RN-G (W/m2)")
     ax.set_ylabel("LE + H (W/m2)")
     ax.legend(loc="upper right")
@@ -743,7 +741,7 @@ def plot_co2_comparision(merged_df):
 def wind_rose(merged_df):
     # Create a windrose plot
     # Only daytime hours 7am to 7pm
-    merged_df = merged_df[(merged_df.index.hour >= 7) & (merged_df.index.hour < 19)]
+    merged_df = merged_df[(merged_df.index.hour >= 7) & (merged_df.index.hour < 19)]    
     fig, ax = plt.subplots(subplot_kw={"projection": "windrose"})
     ax.bar(
         merged_df["wind_dir"],

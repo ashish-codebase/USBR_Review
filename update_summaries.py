@@ -15,6 +15,7 @@ columnlist = [
     "co2_signal_strength_7500_mean",
     "co2_molar_density",
     "date",
+    "daytime",
     "e",
     "es",
     "ET",
@@ -60,14 +61,14 @@ columnlist = [
     "wind_speed"
 ]
 sites = [
-    "LaPlata",
-    "NAPI",
     "Olathe",
-    "Baggs",
+    "Boulder",
+    "NAPI",
     "Cora",
+    "LaPlata",
+    "Baggs",
     "Cortez",
     "Gunnison",
-    "Boulder",
     "HUC_12",
     "GrantNE",
     "Sutherland_Beans",
