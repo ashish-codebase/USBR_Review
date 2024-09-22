@@ -12,6 +12,7 @@ columnlist = [
     "air_pressure",
     "air_temperature",
     "ALB_1_1_1",
+    "bowen_ratio",
     "co2_signal_strength_7500_mean",
     "co2_molar_density",
     "date",

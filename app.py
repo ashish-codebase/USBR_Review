@@ -90,22 +90,21 @@ st.text("")
 st.text("")
 
 
-def clean_column(df, colName):
+def clean_column(df, colName, window=3, threshold=1):
     if colName == "P_RAIN_1_1_1":
         return df
     try:
-        Q1 = df[colName].quantile(0.1)
-        Q3 = df[colName].quantile(0.9)
-        IQR = Q3 - Q1
-        lower_bound = Q1 - 1.5 * IQR
-        upper_bound = Q3 + 1.5 * IQR
-        df[colName] = df[colName].where(
-            (df[colName] >= lower_bound) & (df[colName] <= upper_bound), np.nan
-        )
-        return df[colName]
+        rolling_median = df[colName].rolling(window=window, center=True).median()
+        rolling_std = df[colName].rolling(window=window, center=True).std()
+        outliers = np.abs(df[colName] - rolling_median) > (threshold * rolling_std)
+        # Create a copy of the original data
+        df_cleaned = df.copy()    
+        # Replace outliers with NaN
+        df_cleaned.loc[outliers, colName] = np.nan
+        return df_cleaned[colName]
+    
     except:
         return df[colName]
-
 
 def plot_ET(merged_df):
     ET_Daily = merged_df["ET"].resample("D").sum()
@@ -233,7 +232,7 @@ def plot_horizontal_SWC(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(0, 1)
+    ax.set_ylim(0, 0.75)
     ax.set_title(selceted_site_bold + ": Soil water content Hydra Probes (all)")
     ax.legend(loc="lower left")
     ax.invert_yaxis()
@@ -346,11 +345,26 @@ def plot_co2signal(merged_df):
     plt.xticks(rotation=45, ha="right")
     plt.grid()
     ax.set_xlim(date_range)
-    ax.set_ylim(90, 100)
+    ax.set_ylim(60, 100)
     ax.set_title(selceted_site_bold + ": " + colName)
     st.pyplot(fig)
     plt.close()
 
+def plot_bowen_ratio(merged_df):
+    colName = "bowen_ratio"
+    merged_df = merged_df[(merged_df["daytime"] > 0)]
+    fig, ax = plt.subplots(figsize=plot_shape)
+    ax.plot(merged_df.index, clean_column(merged_df, colName), linewidth=1)
+
+    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
+    plt.xticks(rotation=45, ha="right")
+    plt.grid()
+    ax.set_xlim(date_range)
+    ax.set_ylim(-2, 10)
+    ax.set_title(selceted_site_bold + ": " + colName + " (only daytime values) un-spiked")
+    st.pyplot(fig)
+    plt.close()
 
 def plot_SHF(merged_df):
     colName1 = "SHF_1_1_1"
@@ -852,7 +866,7 @@ plt.rcParams["axes.facecolor"] = "lightcyan"
 plot_RH(merged_df)
 
 plot_co2signal(merged_df)
-
+plot_bowen_ratio(merged_df)
 plot_precip(merged_df)
 
 col1, col2 = st.columns(2)
