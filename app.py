@@ -58,7 +58,7 @@ with st.sidebar:
         step=1.0,
     )
     angle_from_north = st.number_input(
-        "Enter Sonic to Gas analyzer angle (0-360):",
+        "Sonic to Gas analyzer angle (0-360):",
         min_value=0.0,
         max_value=359.9,
         value=275.0,
@@ -66,8 +66,8 @@ with st.sidebar:
     )
     sensor_east = separation * math.sin(math.radians(angle_from_north))
     sensor_west = separation * math.cos(math.radians(angle_from_north))
-    st.markdown(f"Eastward separation : **{round(sensor_east, 2)} cm**.")
-    st.markdown(f"Northward spearation: **{round(sensor_west,2)} cm**.")
+    st.markdown(f"Eastward (X) : **{round(sensor_east, 2)} cm**.")
+    st.markdown(f"Northward (Y) : **{round(sensor_west,2)} cm**.")
     st.markdown("---")
 
 ticks = np.clip(int(days_limit / 10), 1, 15)
