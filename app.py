@@ -90,7 +90,7 @@ st.text("")
 st.text("")
 
 
-def clean_column(df, colName, window=3, threshold=1):
+def clean_column(df, colName, window=13, threshold=2):
     if colName == "P_RAIN_1_1_1":
         return df
     try:
@@ -327,7 +327,7 @@ def plot_RH(merged_df):
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
     ax.set_title(
-        selceted_site_bold + ": Relative humidity from Vaisala and gas analyzer."
+        selceted_site_bold + ": Relative humidity from Vaisala (2m) and gas analyzer (~3m)."
     )
     ax.legend(loc="lower left")
     ax.grid(True)
