@@ -327,7 +327,7 @@ def plot_RH(merged_df):
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
     ax.set_title(
-        selceted_site_bold + ": Relative humidity from Vaisala (2m) and gas analyzer (~3m)."
+        selceted_site_bold + ": Relative humidity from Vaisala (2m) and gas analyzer (3m-4m)."
     )
     ax.legend(loc="lower left")
     ax.grid(True)
