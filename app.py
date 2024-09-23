@@ -292,7 +292,7 @@ def plot_RH_regression(merged_df):
         + "RH comparisoin Vaisala (X-axis) Vs Gas analyzer RH (Y-axis)"
     )
     ax.text(0.05, 0.75, f"{linear_regression}", color="blue", transform=ax.transAxes)
-    ax.text(0.05, 0.55, f"{huber_regression}", color="brown", transform=ax.transAxes)
+    ax.text(0.05, 0.62, f"{huber_regression}", color="brown", transform=ax.transAxes)
     ax.text(
         0.05,
         0.05,
