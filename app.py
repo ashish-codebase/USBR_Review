@@ -73,12 +73,19 @@ with st.sidebar:
 ticks = np.clip(int(days_limit / 10), 1, 15)
 
 script_path = os.getcwd()
-# all_files = glob.glob(script_path + "**/**/*", recursive=True)
-st.markdown(
-    "<h1 style='text-align: center; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
+head_col1, head_col2 = st.columns([6,1])
+with head_col1:
+    st.text("")
+    st.text("")
+    st.markdown(
+    "<h1 style='text-align: left; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
     unsafe_allow_html=True,
-)
-# st.markdown("### Daily EC summary data from all online towers in CO, WY, NM & NE")
+    )
+with head_col2:
+    image_self = Image.open(r"Data\SatelliteImage\profile self.jpg")
+    st.image(image=image_self, caption="Site created and maintained by Ashish Masih.")
+    st.markdown("https://waterforfood.nebraska.edu")
+
 st.markdown(f"## {selceted_site_bold} EC tower data:-")
 st.markdown(
     f"- This is raw and uncorrected data and should be used only to review sensor's functionality."
