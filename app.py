@@ -48,7 +48,7 @@ st.markdown(
     .section1 {
         background-color: #f0f0f0;  /* Change to your desired color */
         padding: 90px;
-        border-radius: 5px;
+        border-radius: 25px;
     }
     .section2 {
         background-color: #f0f0f0;  /* Change to your desired color */
@@ -92,17 +92,18 @@ with st.sidebar:
 ticks = np.clip(int(days_limit / 10), 1, 15)
 
 script_path = os.getcwd()
-head_col1, head_col2 = st.columns([6,1])
+head_col1, head_col2 = st.columns([10,1])
 with head_col1:
     st.markdown(
-    "<h1 class='section1' style='text-align: left; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
+    "<h1 class='section1' style='text-align: center; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
     unsafe_allow_html=True,
     )
 with head_col2:
     image_self = Image.open(r"Data/SatelliteImage/self.jpg")
-    st.image(image=image_self, caption="Site created and maintained by Ashish Masih.")
-    email_link = "[**@ Contact Me:**](mailto:amasih2@unl.edu?subject=Subject&body=Message)"
+    st.image(image=image_self, caption="Site created by Ashish Masih.", use_column_width=True)
+    email_link = f"###### [**@ Contact Me:**](mailto:amasih2@unl.edu?subject=Subject&body=Message)"
     st.markdown(email_link, unsafe_allow_html=True)
+    # st.markdown(email_link, unsafe_allow_html=True)
 
 
 st.markdown(f"## {selceted_site_bold} EC tower data:-")
@@ -371,8 +372,8 @@ def plot_co2signal(merged_df):
     plt.xticks(rotation=45, ha="right")
     plt.grid()
     ax.set_xlim(date_range)
-    ax.set_ylim(60, 100)
-    ax.set_title(selceted_site_bold + ": " + colName)
+    ax.set_ylim(60, 105)
+    ax.set_title(selceted_site_bold + ": " + colName + " (%)")
     st.pyplot(fig)
     plt.close()
 
