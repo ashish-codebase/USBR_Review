@@ -815,13 +815,15 @@ def wind_rose(merged_df):
         pass
     try:
         with col2:
-            st.markdown(f"**Windrose: Nearest weatherstation.**")
+            string1 = "###### Windrose"
+            string2 = ": Nearest weatherstation."
+            st.markdown(f"{string1}{string2}")
             relative_path = update_summaries.windroses[f"{selceted_site}"]
             wind_rose_path = f"{script_path}\{relative_path}"
             wind_rose_path = wind_rose_path.replace("\\", "/")
             image = Image.open(wind_rose_path)
 
-            st.image(image, caption=f"{selceted_site_bold} Wind rose.")
+            st.image(image, caption="")
     except:
         st.text("Variable not found")
         pass
@@ -835,7 +837,7 @@ def wind_rose(merged_df):
             # st.markdown(f"Satellite image path: {satellite_img_path}")
             image = Image.open(satellite_img_path)
 
-            st.image(image, caption=f"{selceted_site_bold} satellite image.")
+            st.image(image, caption="")
     except:
         st.text("Variable not found")
         pass
