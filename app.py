@@ -95,7 +95,7 @@ script_path = os.getcwd()
 head_col1, head_col2 = st.columns([10,1])
 with head_col1:
     st.markdown(
-    "<h1 class='section1' style='text-align: center; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
+    "<h1 class='section1' style='text-align: center; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project monitor.</h2>",
     unsafe_allow_html=True,
     )
 with head_col2:
