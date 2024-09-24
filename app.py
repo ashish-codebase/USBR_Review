@@ -101,7 +101,7 @@ with head_col1:
 with head_col2:
     image_self = Image.open(r"Data/SatelliteImage/self.jpg")
     st.image(image=image_self, caption="Site created by Ashish Masih.", use_column_width=True)
-    email_link = f"###### [**@ Contact Me:**](mailto:amasih2@unl.edu?subject=Subject&body=Message)"
+    email_link = f"###### [**@ Contact:**](mailto:amasih2@unl.edu?subject=Subject&body=Message)"
     st.markdown(email_link, unsafe_allow_html=True)
     # st.markdown(email_link, unsafe_allow_html=True)
 
