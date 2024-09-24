@@ -77,14 +77,16 @@ head_col1, head_col2 = st.columns([6,1])
 with head_col1:
     st.text("")
     st.text("")
+    st.text("")
     st.markdown(
     "<h1 style='text-align: left; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
     unsafe_allow_html=True,
     )
 with head_col2:
-    image_self = Image.open(r"Data\SatelliteImage\profile self.jpg")
+    image_self = Image.open(r"Data/SatelliteImage/self.jpg")
     st.image(image=image_self, caption="Site created and maintained by Ashish Masih.")
-    st.markdown("https://waterforfood.nebraska.edu")
+    email_link = "[**@ Contact Me:**](mailto:amasih2@unl.edu?subject=Subject&body=Message)"
+    st.markdown(email_link, unsafe_allow_html=True)
 
 st.markdown(f"## {selceted_site_bold} EC tower data:-")
 st.markdown(
