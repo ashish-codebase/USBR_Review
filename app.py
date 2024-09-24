@@ -47,7 +47,7 @@ st.markdown(
     <style>
     .section1 {
         background-color: #f0f0f0;  /* Change to your desired color */
-        padding: 90px;
+        padding: 1em;
         border-radius: 25px;
     }
     .section2 {
