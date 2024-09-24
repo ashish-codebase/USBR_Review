@@ -41,6 +41,25 @@ st.set_page_config(
     page_icon="🗼",
     initial_sidebar_state="expanded",
 )
+
+st.markdown(
+    """
+    <style>
+    .section1 {
+        background-color: #f0f0f0;  /* Change to your desired color */
+        padding: 90px;
+        border-radius: 5px;
+    }
+    .section2 {
+        background-color: #f0f0f0;  /* Change to your desired color */
+        padding: 20px;
+        border-radius: 5px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 sites = update_summaries.sites
 
 with st.sidebar:
@@ -75,11 +94,8 @@ ticks = np.clip(int(days_limit / 10), 1, 15)
 script_path = os.getcwd()
 head_col1, head_col2 = st.columns([6,1])
 with head_col1:
-    st.text("")
-    st.text("")
-    st.text("")
     st.markdown(
-    "<h1 style='text-align: left; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
+    "<h1 class='section1' style='text-align: left; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project</h2>",
     unsafe_allow_html=True,
     )
 with head_col2:
@@ -87,6 +103,7 @@ with head_col2:
     st.image(image=image_self, caption="Site created and maintained by Ashish Masih.")
     email_link = "[**@ Contact Me:**](mailto:amasih2@unl.edu?subject=Subject&body=Message)"
     st.markdown(email_link, unsafe_allow_html=True)
+
 
 st.markdown(f"## {selceted_site_bold} EC tower data:-")
 st.markdown(
