@@ -193,10 +193,10 @@ def plot_temperatures(merged_df):
         )
         ax.set_title(
             selceted_site_bold
-            + ": Sonic, Air, LI-7500 & Canopy temperatures."
+            + ": Sonic, Vaisala, LI-7500 & IRT Canopy temperatures."
         )
     except:
-        ax.set_title(selceted_site_bold + ": Sonic, Air & LI-7500 (C)")
+        ax.set_title(selceted_site_bold + ": Sonic, Vaisala & LI-7500 (C)")
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
