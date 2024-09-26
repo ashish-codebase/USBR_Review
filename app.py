@@ -92,7 +92,7 @@ with st.sidebar:
 ticks = np.clip(int(days_limit / 10), 1, 15)
 
 script_path = os.getcwd()
-head_col1, head_col2 = st.columns([10,1])
+head_col1, head_col2 = st.columns([5,1])
 with head_col1:
     st.markdown(
     "<h1 class='section1' style='text-align: center; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project Monitor.</h2>",
@@ -884,9 +884,11 @@ merged_df = merged_df.sort_index(axis=1)
 merged_df = merged_df[
     (merged_df.index >= date_range[0]) & (merged_df.index <= end_date)
 ]
-
+date_start = datetime.date(merged_df.index[0])
+date_end = datetime.date(merged_df.index[-1])  
+difference_days = date_end-date_start
 date_range_placeholder.markdown(
-    f"- **Displayed date range:** {datetime.date(merged_df.index[0])} to {datetime.date(merged_df.index[-1])}"
+    f"- **Displayed date range:** {datetime.date(merged_df.index[0])} to {datetime.date(merged_df.index[-1])}; (**{difference_days.days} days**)"
 )
 plt.rcParams["figure.facecolor"] = "lightcyan"
 # Setting the axes background color
