@@ -4,7 +4,14 @@ import os
 import datetime
 import sqlite3
 import numpy as np
+import sqlitecloud
 
+# start_time = datetime.datetime.now()
+# conn = sqlitecloud.connect("sqlitecloud://clsbszyqsk.sqlite.cloud:8860?apikey=xFd5zP0kMbj3K6u3bWzu1rhJyWPlU1Obamgy4qzICv8")
+# conn.execute(f"USE DATABASE {'GrantNE.db'}")
+# df_actual_prices = pd.read_sql("SELECT * FROM summary", conn)
+# delta = (datetime.datetime.now() - start_time).microseconds
+# print(f"Execution time = {delta} microseconds.")
 mod_time_readable = datetime.datetime(month=1, day=1, year=1900).date()
 today_date = datetime.datetime.today().date()
 date_range = (mod_time_readable, today_date)
