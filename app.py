@@ -163,7 +163,7 @@ def plot_temperatures(merged_df):
     colName4 = "TCNR4_C_1_1_1"
     colName5 = "air_temperature"
 
-    fig, ax = plt.subplots(figsize=(18,9))
+    fig, ax = plt.subplots(figsize=(18,6))
     ax.plot(
         merged_df.index,
         clean_column(merged_df, colName1) - 273.15,
@@ -936,3 +936,8 @@ plot_temperature_SHF(merged_df)
 plot_temperature_probe(merged_df)
 
 plot_SHF(merged_df)
+
+st.markdown("### Display time-series data:")
+display_data = st.checkbox("View data", value=False)
+if display_data:
+    st.dataframe(merged_df)
