@@ -198,8 +198,14 @@ def plot_temperatures(merged_df):
     except:
         ax.set_title(selceted_site_bold + ": Sonic, Vaisala & LI-7500 (C)")
 
-    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
+    locator = mdates.AutoDateLocator(minticks=3, maxticks=12)
+    formatter = mdates.AutoDateFormatter(locator)
+    # formatter.scaled[1/(24*60)] = '%Y-%m-%d %H:%M'
+    formatter.scaled[1/24] = '%Y-%m-%d %H:%M'
+    formatter.scaled[1] = '%Y-%m-%d'
+    locator = ax.xaxis.set_major_locator(locator)
+    ax.xaxis.set_major_formatter(formatter)    
+    ax.grid(True)
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
     # ax.set_ylim(0, 45)
@@ -937,7 +943,5 @@ plot_temperature_probe(merged_df)
 
 plot_SHF(merged_df)
 
-st.markdown("### Display time-series data:")
-display_data = st.checkbox("View data", value=False)
-if display_data:
+if st.button("**Display time-series data:**"):
     st.dataframe(merged_df)
