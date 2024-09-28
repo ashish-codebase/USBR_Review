@@ -200,7 +200,7 @@ def plot_temperatures(merged_df):
 
     locator = mdates.AutoDateLocator(minticks=3, maxticks=12)
     formatter = mdates.AutoDateFormatter(locator)
-    # formatter.scaled[1/(24*60)] = '%Y-%m-%d %H:%M'
+    formatter.scaled[1/(24*60)] = '%Y-%m-%d %H:%M'
     formatter.scaled[1/24] = '%Y-%m-%d %H:%M'
     formatter.scaled[1] = '%Y-%m-%d'
     locator = ax.xaxis.set_major_locator(locator)
