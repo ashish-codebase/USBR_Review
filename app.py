@@ -198,7 +198,7 @@ def plot_temperatures(merged_df):
     except:
         ax.set_title(selceted_site_bold + ": Sonic, Vaisala & LI-7500 (C)")
 
-    locator = mdates.AutoDateLocator(minticks=6, maxticks=18)
+    locator = mdates.AutoDateLocator(minticks=4, maxticks=18)
     formatter = mdates.AutoDateFormatter(locator)
     formatter.scaled[1/(24*60)] = '%y/%m/%d %H:%M'
     formatter.scaled[1/24] = '%y/%m/%d %H:%M'
