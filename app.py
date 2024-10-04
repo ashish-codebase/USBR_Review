@@ -47,7 +47,7 @@ st.markdown(
     <style>
     .section1 {
         background-color: #f0f0f0;  /* Change to your desired color */
-        padding: 1em;
+        padding: 1.5em;
         border-radius: 25px;
     }
     .section2 {
@@ -92,7 +92,7 @@ with st.sidebar:
 ticks = np.clip(int(days_limit / 10), 1, 15)
 
 script_path = os.getcwd()
-head_col1, head_col2 = st.columns([5,1])
+head_col1, head_col2 = st.columns([8,1])
 with head_col1:
     st.markdown(
     "<h1 class='section1' style='text-align: center; text-decoration:underline;'> Upper CO River Basin Commision (UCRBC) Project Monitor.</h2>",
@@ -100,7 +100,7 @@ with head_col1:
     )
 with head_col2:
     image_self = Image.open(r"Data/SatelliteImage/self.jpg")
-    st.image(image=image_self, caption="Site created by Ashish Masih.", use_column_width=True)
+    st.image(image=image_self, caption="Site created by Ashish Masih.", width=100)
     email_link = f"###### [**@ Contact:**](mailto:amasih2@unl.edu?subject=Subject&body=Message)"
     st.markdown(email_link, unsafe_allow_html=True)
     # st.markdown(email_link, unsafe_allow_html=True)
