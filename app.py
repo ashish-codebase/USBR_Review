@@ -387,6 +387,7 @@ def plot_bowen_ratio(merged_df):
     colName = "bowen_ratio"
     merged_df = merged_df[(merged_df["daytime"] > 0)]
     fig, ax = plt.subplots(figsize=plot_size)
+    ax.plot(merged_df.index, np.zeros(merged_df.shape[0]), linewidth=2, color="gray")
     ax.plot(merged_df.index, clean_column(merged_df, colName), linewidth=1)
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
@@ -394,7 +395,7 @@ def plot_bowen_ratio(merged_df):
     plt.xticks(rotation=45, ha="right")
     plt.grid()
     ax.set_xlim(date_range)
-    ax.set_ylim(-5, 10)
+    ax.set_ylim(-2, 3)
     ax.set_title(selceted_site_bold + ": " + colName + " (only daytime values) un-spiked")
     st.pyplot(fig)
     plt.close()
