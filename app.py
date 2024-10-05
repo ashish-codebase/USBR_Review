@@ -317,6 +317,7 @@ def plot_RH_regression(merged_df):
     ax.scatter(X, y, s=1, label="Data points")
     ax.plot(X, huber_yPredicted, color="brown", linewidth=2, label="Huber Regression")
     ax.plot(X, linear_yPredicted, color="blue", linewidth=2, label="Linear Regression")
+    ax.plot((0,100), (0,100), color="gray", linewidth=2, label="1:1 Line")
     ax.set_xlabel("Relative humidity from Vaisala (%)")
     ax.set_ylabel("Relative humidity from LI-7500 (%)")
     ax.set_title(
@@ -324,15 +325,15 @@ def plot_RH_regression(merged_df):
         + ": "
         + "RH comparisoin Vaisala (X-axis) Vs Gas analyzer RH (Y-axis)"
     )
-    ax.text(0.05, 0.75, f"{linear_regression}", color="blue", transform=ax.transAxes)
-    ax.text(0.05, 0.62, f"{huber_regression}", color="brown", transform=ax.transAxes)
+    ax.text(0.05, 0.72, f"{linear_regression}", color="blue", transform=ax.transAxes)
+    ax.text(0.05, 0.60, f"{huber_regression}", color="brown", transform=ax.transAxes)
     ax.text(
+        0.12,
         0.05,
-        0.05,
-        f"Regression equation is calculated using 'Huber-Regresion' to ignore larger outliers,\n as it is not a systematic error (e.g. explore Cora).",
+        "Regression equation is calculated using 'Huber-Regresion' to ignore\n larger outliers, as it is not a systematic error (e.g. explore Cora).", transform=ax.transAxes
     )
-    ax.set_ylim(-5, 105)
-    ax.set_xlim(-5, 105)
+    ax.set_ylim(-5, 115)
+    ax.set_xlim(-5, 115)
     ax.legend()
     ax.grid(True)
     return fig
@@ -828,7 +829,7 @@ def wind_rose(merged_df):
         opening=0.8,
         edgecolor="white",
         nsector=36,
-        cmap=plt.cm.jet,
+        cmap=plt.get_cmap('gist_ncar'),
         bins=[0, 2, 5, 7, 10, 15, 19.99],
     )
     ax.set_title(f"Windrose: {selceted_site_bold}")
