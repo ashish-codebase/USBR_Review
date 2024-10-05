@@ -66,16 +66,16 @@ columnlist = [
 sites = [
     "Olathe",
     "Cora",
-    "Boulder",
     "NAPI",
+    "Boulder",
     "LaPlata",
     "Cortez",
     "Baggs",
     "Gunnison",
-    "HUC_12",
-    "GrantNE",
-    "Sutherland_Beans",
-    "Holbrook"
+    # "HUC_12",
+    # "GrantNE",
+    # "Sutherland_Beans",
+    # "Holbrook"
 ]
 windroses = {
     "LaPlata":r"Data/WindRose/WindRose_LaPlata.png",
