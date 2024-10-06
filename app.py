@@ -898,6 +898,7 @@ difference_days = date_end-date_start
 date_range_placeholder.markdown(
     f"- **Displayed date range:** {datetime.date(merged_df.index[0])} to {datetime.date(merged_df.index[-1])}; (**{difference_days.days} days**)"
 )
+
 plt.rcParams["figure.facecolor"] = "lightcyan"
 # Setting the axes background color
 plt.rcParams["axes.facecolor"] = "lightcyan"
