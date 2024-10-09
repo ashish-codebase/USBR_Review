@@ -105,6 +105,12 @@ satellite_images = {
     "Sutherland_Beans":r"Data/SatelliteImage/Sutherland.jpg",
     "Holbrook":r"Data/SatelliteImage/Holbrook.jpg"
 }
+
+def rn_time_lag(df: pd.DataFrame):
+    df['RN_1_1_1'] = df['SWIN_1_1_1'] - df['SWOUT_1_1_1'] + df['LWIN_1_1_1'] - df['LWOUT_1_1_1'].shift(-2)
+    df['LWOUT_1_1_1'] = df['LWOUT_1_1_1'].shift(-2)
+    return df
+
 def get_dataframe(filePath):
     """Get the dataframe from the selected daily summary file for the pre-selected columns only."""
     tempPath = os.path.basename(filePath)
@@ -163,7 +169,7 @@ def read_db(selected_site):
 
         merged_df.sort_index(inplace=True)
         merged_df.drop_duplicates(inplace=True)
-        start_time = datetime.datetime.now()
+        merged_df =rn_time_lag(merged_df)
         conn = sqlite3.connect(db_path)
         merged_df.to_sql(name="summary", con=conn, if_exists="replace", index=True)
         # Close the connection

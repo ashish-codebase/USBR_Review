@@ -160,8 +160,7 @@ def plot_temperatures(merged_df):
     colName1 = "sonic_temperature"
     colName2 = "TA_1_1_1"
     colName3 = "TC_1_1_1"
-    colName4 = "TCNR4_C_1_1_1"
-    colName5 = "air_temperature"
+    colName4 = "air_temperature"
 
     fig, ax = plt.subplots(figsize=(18,6))
     ax.plot(
@@ -179,7 +178,7 @@ def plot_temperatures(merged_df):
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName5) - 273.15,
+        clean_column(merged_df, colName4) - 273.15,
         linewidth=1.5,
         label="LI-7500 temperature(C)",
         linestyle='dotted'
@@ -204,7 +203,7 @@ def plot_temperatures(merged_df):
     formatter.scaled[1/24] = '%y/%m/%d %H:%M'
     formatter.scaled[1] = '%y/%m/%d'
     locator = ax.xaxis.set_major_locator(locator)
-    ax.xaxis.set_major_formatter(formatter)    
+    ax.xaxis.set_major_formatter(formatter)
     ax.grid(True)
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -885,8 +884,10 @@ merged_df = get_db(dbPath)
 start_date = merged_df.index.values[0]
 end_date = merged_df.index.values[-1]
 limit_date = end_date - pd.Timedelta(days=days_limit)
+
 if limit_date < start_date:
     limit_date = start_date
+limit_date = limit_date.replace(hour=0, minute=0, second=0)
 date_range = (limit_date, end_date)
 merged_df = merged_df.sort_index(axis=1)
 merged_df = merged_df[
