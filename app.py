@@ -279,16 +279,16 @@ def plot_RH_regression(merged_df):
     components["RH_1_1_1"] = merged_df[colName1].values
     components["RH"] = merged_df[colName2].values
     components = components.dropna()
-    X = components[["RH_1_1_1"]]
-    y = components[["RH"]].values
+    X = components["RH_1_1_1"].to_numpy().reshape(-1, 1)
+    y = components["RH"].to_numpy().ravel()
 
     # Standardize the features
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    # scaler = StandardScaler()
+    # X_scaled = scaler.fit_transform(X)
 
     # Perform Huber Regression
     huber = HuberRegressor()
-    huber.fit(X.values, y)
+    huber.fit(X, y)
     huber_slope = huber.coef_[0]
     huber_intercept = huber.intercept_
     huber_yPredicted = huber.predict(X)
@@ -300,15 +300,15 @@ def plot_RH_regression(merged_df):
 
     # Perform Linear Regression
     linear = LinearRegression()
-    linear.fit(X.values, y)
+    linear.fit(X, y)
     linear_slope = linear.coef_[0]
     linear_intercept = linear.intercept_
     linear_yPredicted = linear.predict(X)
     linear_r2 = r2_score(y, linear_yPredicted)
 
     linear_regression = "Linear Regression:"
-    linear_regression += f"\n    Intercept: {linear_intercept[0]:.4f}"
-    linear_regression += f"\n    Slope: {linear_slope[0]:.4f}"
+    linear_regression += f"\n    Intercept: {linear_intercept:.4f}"
+    linear_regression += f"\n    Slope: {linear_slope:.4f}"
     linear_regression += f"\n    R2: {float(linear_r2):.4f}"
 
     # Plot the results
