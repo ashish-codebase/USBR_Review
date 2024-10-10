@@ -901,7 +901,6 @@ date_range_placeholder.markdown(
 )
 
 plt.rcParams["figure.facecolor"] = "lightcyan"
-# Setting the axes background color
 plt.rcParams["axes.facecolor"] = "lightcyan"
 
 plot_RH(merged_df)
