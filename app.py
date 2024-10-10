@@ -197,13 +197,13 @@ def plot_temperatures(merged_df):
     except:
         ax.set_title(selceted_site_bold + ": Sonic, Vaisala & LI-7500 (C)")
 
-    locator = mdates.AutoDateLocator(minticks=4, maxticks=18)
+    locator = mdates.AutoDateLocator(minticks=5, maxticks=12)
     formatter = mdates.AutoDateFormatter(locator)
     formatter.scaled[1/(24*60)] = '%y/%m/%d %H:%M'
     formatter.scaled[1/24] = '%y/%m/%d %H:%M'
     formatter.scaled[1] = '%y/%m/%d'
-    locator = ax.xaxis.set_major_locator(locator)
     ax.xaxis.set_major_formatter(formatter)
+    locator = ax.xaxis.set_major_locator(locator)
     ax.grid(True)
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
@@ -782,6 +782,31 @@ def plot_precip(merged_df):
     plt.close()
 
 
+def energy_balance_ratio(merged_df):
+    try:
+        merged_df = merged_df[(merged_df["daytime"] > 0)]
+        RN = merged_df["RN_1_1_1"]
+        LE = merged_df["LE"]
+        G = merged_df["SHF_1_1_1"]
+        H = merged_df["H"]
+        merged_df['EBR'] = (LE + H)/(RN  - G)
+        EBR = clean_column(merged_df, 'EBR',window=15,threshold=2)
+
+        fig, ax = plt.subplots(figsize=plot_size)
+        ax.plot(merged_df.index, EBR, linewidth=1)
+        ax.plot(merged_df.index, np.ones(merged_df.shape[0]), linewidth=1, color="gray")    
+        # ax.plot(merged_df.index, np.zeros(merged_df.shape[0]), linewidth=2, color="gray")     
+        ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
+        ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
+        plt.xticks(rotation=45, ha="right")
+        ax.set_xlim(date_range)
+        ax.set_title(selceted_site_bold + ": " + "Hourly Energy Balance Ratio (De-spiked, only daytime values)")
+        ax.set_ylim(0.0, 2)
+        st.pyplot(fig)
+        plt.close()
+    except:
+        pass
+
 def plot_co2_comparision(merged_df):
     colName1 = "co2_molar_density"
     colName2 = "air_pressure"
@@ -908,6 +933,7 @@ plot_RH(merged_df)
 plot_co2signal(merged_df)
 plot_bowen_ratio(merged_df)
 plot_precip(merged_df)
+energy_balance_ratio(merged_df)
 
 col1, col2 = st.columns(2)
 with col1:
