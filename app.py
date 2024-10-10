@@ -107,9 +107,7 @@ with head_col2:
 
 
 st.markdown(f"## {selceted_site_bold} EC tower data:-")
-st.markdown(
-    f"- This is raw and uncorrected data and should be used only to review sensor's functionality."
-)
+st.markdown("- This is raw and uncorrected data and should be used only to review sensor's functionality.")
 date_range_placeholder = st.empty()
 date_range_placeholder.text("")
 
@@ -117,21 +115,21 @@ st.text("")
 st.text("")
 
 
-def clean_column(df, colName, window=13, threshold=2.5):
-    if colName == "P_RAIN_1_1_1":
+def clean_column(df, col_name, window=13, threshold=2.5):
+    if col_name == "P_RAIN_1_1_1":
         return df
     try:
-        rolling_median = df[colName].rolling(window=window, center=True).median()
-        rolling_std = df[colName].rolling(window=window, center=True).std()
-        outliers = np.abs(df[colName] - rolling_median) > (threshold * rolling_std)
+        rolling_median = df[col_name].rolling(window=window, center=True).median()
+        rolling_std = df[col_name].rolling(window=window, center=True).std()
+        outliers = np.abs(df[col_name] - rolling_median) > (threshold * rolling_std)
         # Create a copy of the original data
         df_cleaned = df.copy()    
         # Replace outliers with NaN
-        df_cleaned.loc[outliers, colName] = np.nan
-        return df_cleaned[colName]
+        df_cleaned.loc[outliers, col_name] = np.nan
+        return df_cleaned[col_name]
     
     except:
-        return df[colName]
+        return df[col_name]
 
 def plot_ET(merged_df):
     ET_Daily = merged_df["ET"].resample("D").sum()
@@ -157,28 +155,28 @@ def plot_ET(merged_df):
 
 
 def plot_temperatures(merged_df):
-    colName1 = "sonic_temperature"
-    colName2 = "TA_1_1_1"
-    colName3 = "TC_1_1_1"
-    colName4 = "air_temperature"
+    col_name1 = "sonic_temperature"
+    col_name2 = "TA_1_1_1"
+    col_name3 = "TC_1_1_1"
+    col_name4 = "air_temperature"
 
     fig, ax = plt.subplots(figsize=(18,6))
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1) - 273.15,
+        clean_column(merged_df, col_name1) - 273.15,
         linewidth=0.5,
         label="Sonic air temperature(C)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName2) - 273.15,
+        clean_column(merged_df, col_name2) - 273.15,
         linewidth=1.5,
         label="Vaisala Air temperature(C)",
         linestyle='dashed'
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName4) - 273.15,
+        clean_column(merged_df, col_name4) - 273.15,
         linewidth=1.5,
         label="LI-7500 temperature(C)",
         linestyle='dotted'
@@ -186,7 +184,7 @@ def plot_temperatures(merged_df):
     try:
         ax.plot(
             merged_df.index,
-            clean_column(merged_df, colName3) - 273.15,
+            clean_column(merged_df, col_name3) - 273.15,
             linewidth=0.5,
             label="IRT Canopy temperature(C)",
         )
@@ -214,48 +212,48 @@ def plot_temperatures(merged_df):
 
 
 def plot_horizontal_SWC(merged_df):
-    colName1 = "SWC_1_1_1"
-    colName2 = "SWC_2_1_1"
-    colName3 = "SWC_3_1_1"
-    colName4 = "SWC_4_1_1"
-    colName5 = "SWC_5_1_1"
-    colName6 = "SWC_6_1_1"
+    col_name1 = "SWC_1_1_1"
+    col_name2 = "SWC_2_1_1"
+    col_name3 = "SWC_3_1_1"
+    col_name4 = "SWC_4_1_1"
+    col_name5 = "SWC_5_1_1"
+    col_name6 = "SWC_6_1_1"
 
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1),
+        clean_column(merged_df, col_name1),
         linewidth=1,
         label="SWC_1_1_1 m3/m3",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName2),
+        clean_column(merged_df, col_name2),
         linewidth=1,
         label="SWC_2_1_1 m3/m3",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName3),
+        clean_column(merged_df, col_name3),
         linewidth=1,
         label="SWC_3_1_1 m3/m3",
     )
 
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName4),
+        clean_column(merged_df, col_name4),
         linewidth=1,
         label="SWC_4_1_1 m3/m3",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName5),
+        clean_column(merged_df, col_name5),
         linewidth=1,
         label="SWC_5_1_1 m3/m3",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName6),
+        clean_column(merged_df, col_name6),
         linewidth=1,
         label="SWC_6_1_1 m3/m3",
     )
@@ -273,11 +271,11 @@ def plot_horizontal_SWC(merged_df):
 
 
 def plot_RH_regression(merged_df):
-    colName1 = "RH"
-    colName2 = "RH_1_1_1"
+    col_name1 = "RH"
+    col_name2 = "RH_1_1_1"
     components = pd.DataFrame()
-    components["RH_1_1_1"] = merged_df[colName1].values
-    components["RH"] = merged_df[colName2].values
+    components["RH_1_1_1"] = merged_df[col_name1].values
+    components["RH"] = merged_df[col_name2].values
     components = components.dropna()
     X = components["RH_1_1_1"].to_numpy().reshape(-1, 1)
     y = components["RH"].to_numpy().ravel()
@@ -339,18 +337,18 @@ def plot_RH_regression(merged_df):
 
 
 def plot_RH(merged_df):
-    colName1 = "RH_1_1_1"
-    colName2 = "RH"
+    col_name1 = "RH_1_1_1"
+    col_name2 = "RH"
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1),
+        clean_column(merged_df, col_name1),
         linewidth=1,
         label="RH (vaisala)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName2),
+        clean_column(merged_df, col_name2),
         linewidth=1,
         label="RH (gas analyzer)",
     )
@@ -369,9 +367,9 @@ def plot_RH(merged_df):
 
 
 def plot_co2signal(merged_df):
-    colName = "co2_signal_strength_7500_mean"
+    col_name = "co2_signal_strength_7500_mean"
     fig, ax = plt.subplots(figsize=plot_size)
-    ax.plot(merged_df.index, clean_column(merged_df, colName), linewidth=1)
+    ax.plot(merged_df.index, clean_column(merged_df, col_name), linewidth=1)
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
@@ -379,16 +377,16 @@ def plot_co2signal(merged_df):
     plt.grid()
     ax.set_xlim(date_range)
     ax.set_ylim(60, 105)
-    ax.set_title(selceted_site_bold + ": " + colName + " (%)")
+    ax.set_title(selceted_site_bold + ": " + col_name + " (%)")
     st.pyplot(fig)
     plt.close()
 
 def plot_bowen_ratio(merged_df):
-    colName = "bowen_ratio"
+    col_name = "bowen_ratio"
     merged_df = merged_df[(merged_df["daytime"] > 0)]
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(merged_df.index, np.zeros(merged_df.shape[0]), linewidth=2, color="gray")
-    ax.plot(merged_df.index, clean_column(merged_df, colName), linewidth=1)
+    ax.plot(merged_df.index, clean_column(merged_df, col_name,window=5), linewidth=1)
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
@@ -396,30 +394,30 @@ def plot_bowen_ratio(merged_df):
     plt.grid()
     ax.set_xlim(date_range)
     ax.set_ylim(-2, 3)
-    ax.set_title(selceted_site_bold + ": " + colName + " (only daytime values) un-spiked")
+    ax.set_title(selceted_site_bold + ": " + col_name + " (only daytime values) un-spiked")
     st.pyplot(fig)
     plt.close()
 
 def plot_SHF(merged_df):
-    colName1 = "SHF_1_1_1"
-    colName2 = "SHF_2_1_1"
-    colName3 = "SHF_3_1_1"
+    col_name1 = "SHF_1_1_1"
+    col_name2 = "SHF_2_1_1"
+    col_name3 = "SHF_3_1_1"
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1),
+        clean_column(merged_df, col_name1),
         linewidth=1,
         label="SHF_1_1_1 (W/m2)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName2),
+        clean_column(merged_df, col_name2),
         linewidth=1,
         label="SHF_2_1_1 (W/m2)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName3),
+        clean_column(merged_df, col_name3),
         linewidth=1,
         label="SHF_3_1_1 (W/m2)",
     )
@@ -448,7 +446,7 @@ def plot_closure(merged_df):
         components["LE_H"] = Xvals
         components["daytime"] = clean_column(merged_df, "daytime")
         components["u*"] = clean_column(merged_df, "u*")
-        eb_ratio_array = components["LE_H"].values / components["RN_G"].values
+        eb_ratio_array = components["LE_H"].to_numpy() / components["RN_G"].to_numpy()
         eb_ratio_array = np.clip(eb_ratio_array, -0.5, 1.5)
         components["EB_Array"] = eb_ratio_array
         eb_ratio = round((components["LE_H"].sum() / components["RN_G"].sum()), 4)
@@ -534,47 +532,47 @@ def plot_closure(merged_df):
 
 
 def plot_temperature_SHF(merged_df):
-    colName1 = "TS_1_1_1"
-    colName2 = "TS_2_1_1"
-    colName3 = "TS_3_1_1"
-    colName4 = "TS_4_1_1"
-    colName5 = "TS_5_1_1"
-    colName6 = "TS_6_1_1"
+    col_name1 = "TS_1_1_1"
+    col_name2 = "TS_2_1_1"
+    col_name3 = "TS_3_1_1"
+    col_name4 = "TS_4_1_1"
+    col_name5 = "TS_5_1_1"
+    col_name6 = "TS_6_1_1"
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1) - 273.15,
+        clean_column(merged_df, col_name1) - 273.15,
         linewidth=1,
         label="TS_1_1_1 (C)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName2) - 273.15,
+        clean_column(merged_df, col_name2) - 273.15,
         linewidth=1,
         label="TS_2_1_1 (C)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName3) - 273.15,
+        clean_column(merged_df, col_name3) - 273.15,
         linewidth=1,
         label="TS_3_1_1 (C)",
     )
     # fig, ax = plt.subplots(figsize=plot_shape)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName4) - 273.15,
+        clean_column(merged_df, col_name4) - 273.15,
         linewidth=1,
         label="TS_4_1_1 (C)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName5) - 273.15,
+        clean_column(merged_df, col_name5) - 273.15,
         linewidth=1,
         label="TS_5_1_1 (C)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName6) - 273.15,
+        clean_column(merged_df, col_name6) - 273.15,
         linewidth=1,
         label="TS_6_1_1 (C)",
     )
@@ -591,25 +589,25 @@ def plot_temperature_SHF(merged_df):
 
 
 def plot_temperature_probe(merged_df):
-    colName1 = "TS_7_1_1"
-    colName2 = "TS_8_1_1"
-    colName3 = "TS_9_1_1"
+    col_name1 = "TS_7_1_1"
+    col_name2 = "TS_8_1_1"
+    col_name3 = "TS_9_1_1"
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1) - 273.15,
+        clean_column(merged_df, col_name1) - 273.15,
         linewidth=1,
         label="TS_7_1_1 (C)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName2) - 273.15,
+        clean_column(merged_df, col_name2) - 273.15,
         linewidth=1,
         label="TS_8_1_1 (C)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName3) - 273.15,
+        clean_column(merged_df, col_name3) - 273.15,
         linewidth=1,
         label="TS_9_1_1 (C)",
     )
@@ -626,12 +624,12 @@ def plot_temperature_probe(merged_df):
 
 
 def plot_ppdf_swin(merged_df):
-    colName1 = "PPFD_1_1_1"
-    colName2 = "SWIN_1_1_1"
+    col_name1 = "PPFD_1_1_1"
+    col_name2 = "SWIN_1_1_1"
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1) * 0.51,
+        clean_column(merged_df, col_name1) * 0.51,
         color="red",
         linewidth=1,
         label="PPFD (factor= 0.5100) (W/m2",
@@ -641,7 +639,7 @@ def plot_ppdf_swin(merged_df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName2),
+        clean_column(merged_df, col_name2),
         color="blue",
         linewidth=1,
         label="SWIN (W/m2)",
@@ -656,32 +654,32 @@ def plot_ppdf_swin(merged_df):
 
 
 def plot_solar_components(merged_df):
-    colName1 = "SWIN_1_1_1"
-    colName2 = "SWOUT_1_1_1"
-    colName3 = "LWIN_1_1_1"
-    colName4 = "LWOUT_1_1_1"
+    col_name1 = "SWIN_1_1_1"
+    col_name2 = "SWOUT_1_1_1"
+    col_name3 = "LWIN_1_1_1"
+    col_name4 = "LWOUT_1_1_1"
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1),
+        clean_column(merged_df, col_name1),
         linewidth=1,
         label="SWIN (W/m2)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName2),
+        clean_column(merged_df, col_name2),
         linewidth=1,
         label="SWOUT (W/m2)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName3),
+        clean_column(merged_df, col_name3),
         linewidth=1,
         label="LWIN (W/m2)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName4),
+        clean_column(merged_df, col_name4),
         linewidth=1,
         label="LWOUT (W/m2)",
     )
@@ -694,13 +692,13 @@ def plot_solar_components(merged_df):
     ax.set_title(
         selceted_site_bold
         + ": "
-        + colName1
+        + col_name1
         + "; "
-        + colName2
+        + col_name2
         + "; "
-        + colName3
+        + col_name3
         + "; "
-        + colName4
+        + col_name4
     )
     ax.legend(loc="lower left")
     st.pyplot(fig)
@@ -708,18 +706,18 @@ def plot_solar_components(merged_df):
 
 
 def plot_vaporpressure(merged_df):
-    colName1 = "e"
-    colName2 = "es"
+    col_name1 = "e"
+    col_name2 = "es"
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1),
+        clean_column(merged_df, col_name1),
         linewidth=1,
         label="vapor pressure (Pa)",
     )
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName2),
+        clean_column(merged_df, col_name2),
         linewidth=1,
         label="Saturation vapor pressure (Pa)",
     )
@@ -727,7 +725,7 @@ def plot_vaporpressure(merged_df):
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
-    ax.set_title(selceted_site_bold + ": " + colName1 + " & " + colName2)
+    ax.set_title(selceted_site_bold + ": " + col_name1 + " & " + col_name2)
     ax.set_xlim(date_range)
     ax.legend(loc="lower left")
     st.pyplot(fig)
@@ -735,28 +733,28 @@ def plot_vaporpressure(merged_df):
 
 
 def plot_airpresure(merged_df):
-    colName = "air_pressure"
+    col_name = "air_pressure"
     fig, ax = plt.subplots(figsize=plot_size)
-    ax.plot(merged_df.index, merged_df[colName], linewidth=1)
+    ax.plot(merged_df.index, merged_df[col_name], linewidth=1)
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_title(selceted_site_bold + ": " + colName + " (Pa)")
+    ax.set_title(selceted_site_bold + ": " + col_name + " (Pa)")
     st.pyplot(fig)
     plt.close()
 
 
 def plot_albedo(merged_df):
     try:
-        colName = "ALB_1_1_1"
+        col_name = "ALB_1_1_1"
         fig, ax = plt.subplots(figsize=plot_size)
-        ax.plot(merged_df.index, clean_column(merged_df, colName), linewidth=1)
+        ax.plot(merged_df.index, clean_column(merged_df, col_name), linewidth=1)
         ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
         plt.xticks(rotation=45, ha="right")
         ax.set_xlim(date_range)
-        ax.set_title(selceted_site_bold + ": " + colName)
+        ax.set_title(selceted_site_bold + ": " + col_name)
         st.pyplot(fig)
         plt.close()
     except:
@@ -766,7 +764,7 @@ def plot_albedo(merged_df):
 def plot_precip(merged_df):
     ET_Daily = merged_df["P_RAIN_1_1_1"].resample("D").sum()
     ET_Daily = ET_Daily * 100
-    colName1 = "P_RAIN_1_1_1"
+    col_name1 = "P_RAIN_1_1_1"
     fig, ax = plt.subplots(figsize=plot_size)
     bar_width = np.clip((0.0023 * ET_Daily.shape[0] + 0.0204), 0.025, 0.2)
     ax.bar(ET_Daily.index, ET_Daily.values, label="Liquid precip (cm)", width=bar_width)
@@ -808,16 +806,16 @@ def energy_balance_ratio(merged_df):
         pass
 
 def plot_co2_comparision(merged_df):
-    colName1 = "co2_molar_density"
-    colName2 = "air_pressure"
-    colName3 = "air_temperature"
-    airPressure = clean_column(merged_df, colName2)
-    airTemperature = clean_column(merged_df, colName3)
+    col_name1 = "co2_molar_density"
+    col_name2 = "air_pressure"
+    col_name3 = "air_temperature"
+    airPressure = clean_column(merged_df, col_name2)
+    airTemperature = clean_column(merged_df, col_name3)
     CO2NumberDensity = 425.55 * airPressure / (8.314 * airTemperature) * 1 / 1000
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(
         merged_df.index,
-        clean_column(merged_df, colName1),
+        clean_column(merged_df, col_name1),
         color="red",
         linewidth=1,
         label="LI-7500 CO2 molar density mmol/m3",
