@@ -169,7 +169,7 @@ def read_db(selected_site):
 
         merged_df.sort_index(inplace=True)
         merged_df.drop_duplicates(inplace=True)
-        merged_df =rn_time_lag(merged_df)
+        # merged_df =rn_time_lag(merged_df)
         conn = sqlite3.connect(db_path)
         merged_df.to_sql(name="summary", con=conn, if_exists="replace", index=True)
         # Close the connection

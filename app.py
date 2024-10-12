@@ -783,10 +783,10 @@ def plot_precip(merged_df):
 def energy_balance_ratio(merged_df):
     try:
         merged_df = merged_df[(merged_df["daytime"] > 0)]
-        RN = merged_df["RN_1_1_1"]
-        LE = merged_df["LE"]
-        G = merged_df["SHF_1_1_1"]
-        H = merged_df["H"]
+        RN = merged_df["RN_1_1_1"].to_numpy()
+        LE = merged_df["LE"].to_numpy()
+        G = merged_df["SHF_1_1_1"].to_numpy()
+        H = merged_df["H"].to_numpy()
         merged_df['EBR'] = (LE + H)/(RN  - G)
         EBR = clean_column(merged_df, 'EBR',window=15,threshold=2)
 
@@ -798,8 +798,8 @@ def energy_balance_ratio(merged_df):
         ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
         plt.xticks(rotation=45, ha="right")
         ax.set_xlim(date_range)
-        ax.set_title(selceted_site_bold + ": " + "Hourly Energy Balance Ratio (De-spiked, only daytime values)")
-        ax.set_ylim(0.0, 2)
+        ax.set_title(selceted_site_bold + ": " + "Hourly Energy Balance Ratio (LE+H)/(RN-G) (De-spiked, only daytime values)")
+        ax.set_ylim(-1, 2)
         st.pyplot(fig)
         plt.close()
     except:
