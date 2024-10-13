@@ -98,7 +98,7 @@ with head_col1:
     st.markdown(
     """
     <div class='section1' style='text-decoration:underline;'>
-    <h1 > Upper CO River Basin Commision (UCRBC)</h1>
+    <h1 > Upper CO River Basin Commision (UCRBC) Project</h1>
     <h3> Monitoring EC data from all sites.</h3>
     </div>
     """,
@@ -212,13 +212,13 @@ def plot_temperatures(df):
     ax.grid(True)
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    # ax.set_ylim(0, 45)
+    ax.set_ylim(-15, 40)
     ax.legend(loc="lower left")
     st.pyplot(fig)
     plt.close()
 
 
-def plot_horizontal_SWC(merged_df):
+def plot_SWC(merged_df):
     col_name1 = "SWC_1_1_1"
     col_name2 = "SWC_2_1_1"
     col_name3 = "SWC_3_1_1"
@@ -273,6 +273,7 @@ def plot_horizontal_SWC(merged_df):
     ax.set_title(selceted_site_bold + ": Soil water content Hydra Probes (all)")
     ax.legend(loc="lower left")
     ax.invert_yaxis()
+    ax.grid(True)
     st.pyplot(fig)
     plt.close()
 
@@ -384,6 +385,7 @@ def plot_co2signal(df):
     plt.grid()
     ax.set_xlim(date_range)
     ax.set_ylim(60, 105)
+    ax.grid(True)
     ax.set_title(selceted_site_bold + ": " + col_name + " (%)")
     st.pyplot(fig)
     plt.close()
@@ -398,7 +400,7 @@ def plot_bowen_ratio(df):
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
-    plt.grid()
+    ax.grid(True)
     ax.set_xlim(date_range)
     ax.set_ylim(-2, 3)
     ax.set_title(selceted_site_bold + ": " + col_name + " (only daytime values) un-spiked")
@@ -436,7 +438,7 @@ def plot_SHF(df):
     ax.set_ylim(-50, 100)
     ax.set_title(selceted_site_bold + ": Soil Heat flux 1,2 & 3 (W/m2)")
     ax.legend(loc="lower left")
-    # return fig
+    ax.grid(True)
     st.pyplot(fig)
     plt.close()
 
@@ -591,6 +593,7 @@ def plot_temperature_SHF(df):
     ax.set_ylim(0, 45)
     ax.set_title(f"{selceted_site_bold}: Soil temperature from all hydra probes.")
     ax.legend(loc="lower left")
+    ax.grid(True)
     st.pyplot(fig)
     plt.close()
 
@@ -626,6 +629,7 @@ def plot_temperature_probe(df):
     ax.set_ylim(0, 45)
     ax.set_title(selceted_site_bold + ": Soil temperature from (LI-7800-180) probes")
     ax.legend(loc="lower left")
+    ax.grid(True)
     st.pyplot(fig)
     plt.close()
 
@@ -656,6 +660,7 @@ def plot_ppdf_swin(df):
     plt.xticks(rotation=45, ha="right")
     ax.set_title(selceted_site_bold + ": Quantum sensor & Shortwave_In")
     ax.legend(loc="lower left")
+    ax.grid(True)
     st.pyplot(fig)
     plt.close()
 
@@ -708,64 +713,9 @@ def plot_solar_components(df):
         + col_name4
     )
     ax.legend(loc="lower left")
+    ax.grid(True)
     st.pyplot(fig)
     plt.close()
-
-
-def plot_vaporpressure(df):
-    col_name1 = "e"
-    col_name2 = "es"
-    fig, ax = plt.subplots(figsize=plot_size)
-    ax.plot(
-        df.index,
-        clean_column(df, col_name1),
-        linewidth=1,
-        label="vapor pressure (Pa)",
-    )
-    ax.plot(
-        df.index,
-        clean_column(df, col_name2),
-        linewidth=1,
-        label="Saturation vapor pressure (Pa)",
-    )
-
-    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
-    plt.xticks(rotation=45, ha="right")
-    ax.set_title(selceted_site_bold + ": " + col_name1 + " & " + col_name2)
-    ax.set_xlim(date_range)
-    ax.legend(loc="lower left")
-    st.pyplot(fig)
-    plt.close()
-
-
-def plot_airpresure(df):
-    col_name = "air_pressure"
-    fig, ax = plt.subplots(figsize=plot_size)
-    ax.plot(df.index, df[col_name], linewidth=1)
-    ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
-    plt.xticks(rotation=45, ha="right")
-    ax.set_xlim(date_range)
-    ax.set_title(selceted_site_bold + ": " + col_name + " (Pa)")
-    st.pyplot(fig)
-    plt.close()
-
-
-def plot_albedo(df):
-    try:
-        col_name = "ALB_1_1_1"
-        fig, ax = plt.subplots(figsize=plot_size)
-        ax.plot(df.index, clean_column(df, col_name), linewidth=1)
-        ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
-        ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
-        plt.xticks(rotation=45, ha="right")
-        ax.set_xlim(date_range)
-        ax.set_title(selceted_site_bold + ": " + col_name)
-        st.pyplot(fig)
-        plt.close()
-    except:
-        pass
 
 
 def plot_precip(df):
@@ -843,8 +793,10 @@ def plot_co2_comparision(df):
         selceted_site_bold + ": LI-7500 CO2 molar density & CO2 number density"
     )
     ax.legend()
+    ax.grid(True)
     st.pyplot(fig)
     plt.close()
+
 
 
 def wind_rose(df):
@@ -970,7 +922,7 @@ plot_solar_components(merged_df)
 
 plot_et(merged_df)
 
-plot_horizontal_SWC(merged_df)
+plot_SWC(merged_df)
 
 plot_temperatures(merged_df)
 
