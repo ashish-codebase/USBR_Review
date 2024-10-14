@@ -880,9 +880,10 @@ merged_df = merged_df[
 ]
 date_start = datetime.date(merged_df.index[0])
 date_end = datetime.date(merged_df.index[-1])  
-difference_days = date_end-date_start
+difference_days = (date_end-date_start).days
+
 date_range_placeholder.markdown(
-    f"- **Displayed date range:** {datetime.date(merged_df.index[0])} to {datetime.date(merged_df.index[-1])}; (**{difference_days.days} days**)"
+    f"- **Displayed date range:** {datetime.date(merged_df.index[0])} to {datetime.date(merged_df.index[-1])}; (**{difference_days} days**)"
 )
 
 plt.rcParams["figure.facecolor"] = "lightcyan"

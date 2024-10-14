@@ -72,6 +72,7 @@ sites = [
     "Cortez",
     "Baggs",
     "Gunnison",
+    "FtBridger"
     # "HUC_12",
     # "GrantNE",
     # "Sutherland_Beans",
@@ -178,6 +179,7 @@ def read_db(selected_site):
         
 def main():
     for selected_site in sites:
+        print(selected_site)
         read_db(selected_site)
 
 if __name__ == "__main__":
