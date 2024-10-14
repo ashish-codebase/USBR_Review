@@ -90,7 +90,8 @@ windroses = {
     "HUC_12":r"Data/WindRose/WindRose_HUC12.png",
     "GrantNE":r"Data/WindRose/WindRose_GrantNE.png",
     "Sutherland_Beans":r"Data/WindRose/WindRose_Sutherland.png",
-    "Holbrook":r"Data/WindRose/WindRose_Holbrook.png"
+    "Holbrook":r"Data/WindRose/WindRose_Holbrook.png",
+    "FtBridger":r"Data/WindRose/WindRose_FtBridger.png"
 }
 satellite_images = {
     "LaPlata":r"Data/SatelliteImage/LaPlata.jpg",
@@ -104,7 +105,8 @@ satellite_images = {
     "HUC_12":r"Data/SatelliteImage/HUC12.jpg",
     "GrantNE":r"Data/SatelliteImage/Grant.jpg",
     "Sutherland_Beans":r"Data/SatelliteImage/Sutherland.jpg",
-    "Holbrook":r"Data/SatelliteImage/Holbrook.jpg"
+    "Holbrook":r"Data/SatelliteImage/Holbrook.jpg",
+    "FtBridger":r"Data/SatelliteImage/FtBridger.jpg"
 }
 
 def rn_time_lag(df: pd.DataFrame):
