@@ -131,7 +131,6 @@ def get_dataframe(filePath):
     for column in columnlist:
         if not column in df.columns:
             df[column]=np.nan
-    # merged_df = merged_df[(merged_df.index >= datetime.datetime(datetime.datetime.today().year,1,1 ))]
     df.drop(columns=["date", "time"], inplace=True)
     return df
 
