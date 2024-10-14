@@ -369,6 +369,7 @@ def plot_RH(df):
         selceted_site_bold + ": Relative humidity from Vaisala (2m) and gas analyzer (3m-4m)."
     )
     ax.legend(loc="lower left")
+    ax.set_ylim(0,105)
     ax.grid(True)
     st.pyplot(fig)
     plt.close()
@@ -435,7 +436,7 @@ def plot_SHF(df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(-50, 100)
+    ax.set_ylim(-75, 100)
     ax.set_title(selceted_site_bold + ": Soil Heat flux 1,2 & 3 (W/m2)")
     ax.legend(loc="lower left")
     ax.grid(True)
@@ -864,9 +865,13 @@ dbPath = f"{script_path}/Data/{str(selceted_site)}/summaries/{str(selceted_site)
 # st.write(f"{dbPath}")
 merged_df = get_db(dbPath)
 start_date = merged_df.index.values[0]
-end_date = merged_df.index.values[-1]
+data_max_date = merged_df.index.values[-1]
+end_date = np.datetime64('today', 'D')
 limit_date = end_date - pd.Timedelta(days=days_limit)
 
+if data_max_date<limit_date:
+    st.markdown("## Dates are out of range. Increase interval and check if tower was functional.")
+    st.stop()
 if limit_date < start_date:
     limit_date = start_date
     limit_date = limit_date.astype('datetime64[ns]').astype('datetime64[D]').astype(limit_date.dtype)
