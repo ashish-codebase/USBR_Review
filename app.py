@@ -50,6 +50,7 @@ st.markdown(
         padding: 1em;
         border-radius: 25px;
         text-align: left;
+        font-size: 0.75em;
     }
     .section2 {
         background-color: #f0f0f0;  /* Change to your desired color */
