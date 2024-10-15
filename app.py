@@ -873,7 +873,6 @@ if data_max_date<limit_date:
     st.markdown("## Dates are out of range. Increase interval and check if tower was functional.")
     st.markdown(f"#### Data starts from: {np.datetime64(start_date, 'D')} & ends on: {np.datetime64(data_max_date, 'D')}")
     st.markdown(f"#### Wheras data requested from: {datetime.date(limit_date)} to: {end_date}")
-    # st.markdown(f"Data end: {np.datetime64(data_max_date, 'D')}")
     st.stop()
 if limit_date < start_date:
     limit_date = start_date
