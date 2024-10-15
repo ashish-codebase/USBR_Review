@@ -867,7 +867,7 @@ dbPath = f"{script_path}/Data/{str(selceted_site)}/summaries/{str(selceted_site)
 merged_df = get_db(dbPath)
 start_date = merged_df.index.values[0]
 data_max_date = merged_df.index.values[-1]
-end_date = np.datetime64('today', 'D')
+end_date = np.datetime64('now')
 limit_date = end_date - pd.Timedelta(days=days_limit)
 
 if data_max_date<limit_date:
@@ -889,7 +889,7 @@ merged_df = merged_df[
 ]
 date_start = datetime.date(merged_df.index[0])
 date_end = datetime.date(merged_df.index[-1])  
-difference_days = (date_end-date_start).days
+difference_days = (date_end-date_start).days+1
 
 date_range_placeholder.markdown(
     f"- **Displayed date range:** {datetime.date(merged_df.index[0])} to {datetime.date(merged_df.index[-1])}; (**{difference_days} days**)"
