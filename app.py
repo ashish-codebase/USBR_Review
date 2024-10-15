@@ -68,7 +68,7 @@ with st.sidebar:
     st.title("Navigation")
     selceted_site = st.radio("Select EC site:", sites)
     selceted_site_bold = "$\mathbf{" + selceted_site + "}$"
-    days_limit = st.number_input("Enter days to show:", step=7, min_value=0, value=7)
+    days_limit = st.number_input("Enter days to show:", step=7, min_value=0, value=14)
     st.markdown("---")
     st.header("Sensor separation calculator:")
     separation = st.number_input(
