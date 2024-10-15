@@ -880,6 +880,7 @@ if limit_date < start_date:
 else:
     limit_date = limit_date.replace(hour=0, minute=0, second=0)
 
+
 date_range = (limit_date, end_date)
 merged_df = merged_df.sort_index(axis=1)
 merged_df = merged_df[
