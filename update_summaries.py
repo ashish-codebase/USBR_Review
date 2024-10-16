@@ -151,8 +151,8 @@ def read_db(selected_site):
         file_pattern = f"{main_path}/{selected_site}/summaries/*Summary.txt"
         # print(f"Summary files search path: {file_pattern}")
         # print("")
-        print("")
-        print("")
+        # print("")
+        # print("")
         summary_files = glob.glob(file_pattern, recursive=True)
         if len(summary_files) == 0:
             return
