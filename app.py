@@ -15,6 +15,9 @@ from windrose import WindroseAxes
 from datetime import datetime, timedelta
 from PIL import Image
 import math
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 plot_size = (18, 4)
 update_summaries.main()
@@ -541,33 +544,53 @@ def plot_closure(df):
     ax.legend(loc="upper right")
     return fig
 
-
-def plot_temperature_SHF(df):
+def combo_temperature_shf_plot(df, date_range):
     col_name1 = "TS_1_1_1"
     col_name2 = "TS_2_1_1"
     col_name3 = "TS_3_1_1"
+
+    col_name4 = "SHF_1_1_1"
+    col_name5 = "SHF_2_1_1"
+    col_name6 = "SHF_3_1_1"
+
+    col_name7 = "TS_7_1_1"
+    col_name8 = "TS_8_1_1"
+    col_name9 = "TS_9_1_1"
+
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    fig.add_trace(go.Scatter(x=df.index, y=df[col_name1]-273.15, name='HydraProbe_1 temperature (C)'), secondary_y=False )
+    fig.add_trace(go.Scatter(x=df.index, y=df[col_name2]-273.15, name='HydraProbe_2 temperature (C)'), secondary_y=False )
+    fig.add_trace(go.Scatter(x=df.index, y=df[col_name3]-273.15, name='HydraProbe_3 temperature (C)'), secondary_y=False )  
+
+    fig.add_trace(go.Scatter(x=df.index, y=df[col_name7]-273.15, name='SoilProbe_1 temperature (C)'), secondary_y=False)
+    fig.add_trace(go.Scatter(x=df.index, y=df[col_name8]-273.15, name='SoilProbe_2 temperature (C)'), secondary_y=False)    
+    fig.add_trace(go.Scatter(x=df.index, y=df[col_name9]-273.15, name='SoilProbe_3 temperature (C)'), secondary_y=False)
+
+    fig.add_trace(go.Scatter(x=df.index, y=clean_column(df,col_name4), name='Soil Heat Flux 1 (W/m2)'), secondary_y=True)
+    fig.add_trace(go.Scatter(x=df.index, y=clean_column(df,col_name5), name='Soil Heat Flux 2 (W/m2)'), secondary_y=True)    
+    fig.add_trace(go.Scatter(x=df.index, y=clean_column(df,col_name6), name='Soil Heat Flux 3 (W/m2)'), secondary_y=True)
+
+    fig.update_layout(
+        xaxis=dict(range = date_range ),
+        xaxis_title='Date',
+        legend_title='Columns',
+        hovermode='x unified'
+    )
+    fig.update_yaxes(title_text="<b>Soil temperatures C (Hydra probe & soil probe)</b>", secondary_y=False)
+    fig.update_yaxes(title_text="<b>SHF (W/m2)</b>", secondary_y=True)
+    fig.update_traces(mode='lines')
+
+    st.plotly_chart(fig, use_container_width=True)
+
+
+
+def plot_hydra_probe_temperatures(df):
     col_name4 = "TS_4_1_1"
     col_name5 = "TS_5_1_1"
     col_name6 = "TS_6_1_1"
     fig, ax = plt.subplots(figsize=plot_size)
-    ax.plot(
-        df.index,
-        clean_column(df, col_name1) - 273.15,
-        linewidth=1,
-        label="TS_1_1_1 (C)",
-    )
-    ax.plot(
-        df.index,
-        clean_column(df, col_name2) - 273.15,
-        linewidth=1,
-        label="TS_2_1_1 (C)",
-    )
-    ax.plot(
-        df.index,
-        clean_column(df, col_name3) - 273.15,
-        linewidth=1,
-        label="TS_3_1_1 (C)",
-    )
+
     # fig, ax = plt.subplots(figsize=plot_shape)
     ax.plot(
         df.index,
@@ -592,7 +615,7 @@ def plot_temperature_SHF(df):
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
-    ax.set_ylim(0, 45)
+    ax.set_ylim(0, 25)
     ax.set_title(f"{selceted_site_bold}: Soil temperature from all hydra probes.")
     ax.legend(loc="lower left")
     ax.grid(True)
@@ -882,7 +905,7 @@ else:
     limit_date = limit_date.replace(hour=0, minute=0, second=0)
 
 
-date_range = (limit_date, end_date)
+date_range = [limit_date, end_date]
 merged_df = merged_df.sort_index(axis=1)
 merged_df = merged_df[
     (merged_df.index >= date_range[0]) & (merged_df.index <= end_date)
@@ -936,11 +959,13 @@ plot_SWC(merged_df)
 
 plot_temperatures(merged_df)
 
-plot_temperature_SHF(merged_df)
+plot_hydra_probe_temperatures(merged_df)
 
-plot_temperature_probe(merged_df)
+# plot_temperature_probe(merged_df)
 
-plot_SHF(merged_df)
+# plot_SHF(merged_df)
+
+combo_temperature_shf_plot(merged_df, date_range)
 
 if st.button("**Display time-series data:**"):
     st.dataframe(merged_df)

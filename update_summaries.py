@@ -140,7 +140,7 @@ def read_db(selected_site):
     main_path = r"D:\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
     script_path = os.getcwd()
     db_path = f"{script_path}/Data/{selected_site}/summaries/{selected_site}.db"
-    print(f"DB path string {db_path}")    
+    # print(f"DB path string {db_path}")    
     if os.path.exists(db_path):
         mod_time = os.path.getmtime(db_path)
         mod_time_readable = datetime.datetime.fromtimestamp(mod_time).date()
@@ -149,8 +149,8 @@ def read_db(selected_site):
 
     if mod_time_readable < todaysDate:
         file_pattern = f"{main_path}/{selected_site}/summaries/*Summary.txt"
-        print(f"Summary files search path: {file_pattern}")
-        print("")
+        # print(f"Summary files search path: {file_pattern}")
+        # print("")
         print("")
         print("")
         summary_files = glob.glob(file_pattern, recursive=True)
@@ -180,7 +180,7 @@ def read_db(selected_site):
         
 def main():
     for selected_site in sites:
-        print(selected_site)
+        print("Processing: ",selected_site)
         read_db(selected_site)
 
 if __name__ == "__main__":
