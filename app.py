@@ -557,11 +557,14 @@ def combo_temperature_shf_plot(df, date_range):
     col_name8 = "TS_8_1_1"
     col_name9 = "TS_9_1_1"
 
+    col_name10 = "TC_1_1_1"
+
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
     fig.add_trace(go.Scatter(x=df.index, y=df[col_name1]-273.15, name='HydraProbe_1 temperature (C)'), secondary_y=False )
     fig.add_trace(go.Scatter(x=df.index, y=df[col_name2]-273.15, name='HydraProbe_2 temperature (C)'), secondary_y=False )
     fig.add_trace(go.Scatter(x=df.index, y=df[col_name3]-273.15, name='HydraProbe_3 temperature (C)'), secondary_y=False )  
+    fig.add_trace(go.Scatter(x=df.index, y=df[col_name10]-273.15, name='Canopy temperature (C)'), secondary_y=False )  
 
     fig.add_trace(go.Scatter(x=df.index, y=df[col_name7]-273.15, name='SoilProbe_1 temperature (C)'), secondary_y=False)
     fig.add_trace(go.Scatter(x=df.index, y=df[col_name8]-273.15, name='SoilProbe_2 temperature (C)'), secondary_y=False)    
@@ -572,12 +575,14 @@ def combo_temperature_shf_plot(df, date_range):
     fig.add_trace(go.Scatter(x=df.index, y=clean_column(df,col_name6), name='Soil Heat Flux 3 (W/m2)'), secondary_y=True)
 
     fig.update_layout(
+        title=f"{selceted_site}: Comparision of Hydra probe & Soil temperature probe Vs Soil Heat Flux diurnal pattern.",
+        title_x=0.15,
         xaxis=dict(range = date_range ),
         xaxis_title='Date',
         legend_title='Columns',
         hovermode='x unified'
     )
-    fig.update_yaxes(title_text="<b>Soil temperatures C (Hydra probe & soil probe)</b>", secondary_y=False)
+    fig.update_yaxes(title_text="<b>Hydra probe & soil probe temperatures (C)</b>", secondary_y=False)
     fig.update_yaxes(title_text="<b>SHF (W/m2)</b>", secondary_y=True)
     fig.update_traces(mode='lines')
 
