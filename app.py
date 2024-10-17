@@ -395,6 +395,7 @@ def plot_co2signal(df):
     st.pyplot(fig)
     plt.close()
 
+
 def plot_bowen_ratio(df):
     col_name = "bowen_ratio"
     df = df[(df["daytime"] > 0)]
