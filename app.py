@@ -176,28 +176,28 @@ def plot_temperatures(df):
         df.index,
         clean_column(df, col_name1) - 273.15,
         linewidth=0.5,
-        label="Sonic air temperature(C)",
+        label="Sonic air temperature(C)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name2) - 273.15,
         linewidth=1.5,
         label="Vaisala Air temperature(C)",
-        linestyle='dashed'
+        linestyle='dashed', marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name4) - 273.15,
         linewidth=1.5,
         label="LI-7500 temperature(C)",
-        linestyle='dotted'
+        linestyle='dotted', marker='o', markersize=1
     )
     try:
         ax.plot(
             df.index,
             clean_column(df, col_name3) - 273.15,
             linewidth=0.5,
-            label="IRT Canopy temperature(C)",
+            label="IRT Canopy temperature(C)", marker='o', markersize=1
         )
         ax.set_title(
             selceted_site_bold
@@ -235,38 +235,38 @@ def plot_SWC(merged_df):
         merged_df.index,
         clean_column(merged_df, col_name1),
         linewidth=1,
-        label="SWC_1_1_1 m3/m3",
+        label="SWC_1_1_1 m3/m3", marker='o', markersize=1
     )
     ax.plot(
         merged_df.index,
         clean_column(merged_df, col_name2),
         linewidth=1,
-        label="SWC_2_1_1 m3/m3",
+        label="SWC_2_1_1 m3/m3", marker='o', markersize=1
     )
     ax.plot(
         merged_df.index,
         clean_column(merged_df, col_name3),
         linewidth=1,
-        label="SWC_3_1_1 m3/m3",
+        label="SWC_3_1_1 m3/m3", marker='o', markersize=1
     )
 
     ax.plot(
         merged_df.index,
         clean_column(merged_df, col_name4),
         linewidth=1,
-        label="SWC_4_1_1 m3/m3",
+        label="SWC_4_1_1 m3/m3", marker='o', markersize=1
     )
     ax.plot(
         merged_df.index,
         clean_column(merged_df, col_name5),
         linewidth=1,
-        label="SWC_5_1_1 m3/m3",
+        label="SWC_5_1_1 m3/m3", marker='o', markersize=1
     )
     ax.plot(
         merged_df.index,
         clean_column(merged_df, col_name6),
         linewidth=1,
-        label="SWC_6_1_1 m3/m3",
+        label="SWC_6_1_1 m3/m3", marker='o', markersize=1
     )
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
@@ -356,13 +356,13 @@ def plot_RH(df):
         df.index,
         clean_column(df, col_name1),
         linewidth=1,
-        label="RH (vaisala)",
+        label="RH (vaisala)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name2),
         linewidth=1,
-        label="RH (gas analyzer)",
+        label="RH (gas analyzer)", marker='o', markersize=1
     )
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
@@ -382,7 +382,7 @@ def plot_RH(df):
 def plot_co2signal(df):
     col_name = "co2_signal_strength_7500_mean"
     fig, ax = plt.subplots(figsize=plot_size)
-    ax.plot(df.index, clean_column(df, col_name), linewidth=1)
+    ax.plot(df.index, clean_column(df, col_name), linewidth=1, marker='o', markersize=1)
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
@@ -400,7 +400,7 @@ def plot_bowen_ratio(df):
     df = df[(df["daytime"] > 0)]
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(df.index, np.zeros(df.shape[0]), linewidth=2, color="gray")
-    ax.plot(df.index, clean_column(df, col_name,window=5), linewidth=1)
+    ax.plot(df.index, clean_column(df, col_name,window=5), linewidth=1, marker='o', markersize=1)
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
@@ -421,19 +421,19 @@ def plot_SHF(df):
         df.index,
         clean_column(df, col_name1),
         linewidth=1,
-        label="SHF_1_1_1 (W/m2)",
+        label="SHF_1_1_1 (W/m2)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name2),
         linewidth=1,
-        label="SHF_2_1_1 (W/m2)",
+        label="SHF_2_1_1 (W/m2)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name3),
         linewidth=1,
-        label="SHF_3_1_1 (W/m2)",
+        label="SHF_3_1_1 (W/m2)", marker='o', markersize=1
     )
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
@@ -566,9 +566,9 @@ def combo_temperature_shf_plot(df, date_range):
     fig.add_trace(go.Scatter(x=df.index, y=df[col_name3]-273.15, name='HydraProbe_3 temperature (C)'), secondary_y=False )  
     fig.add_trace(go.Scatter(x=df.index, y=df[col_name10]-273.15, name='Canopy temperature (C)'), secondary_y=False )  
 
-    fig.add_trace(go.Scatter(x=df.index, y=df[col_name7]-273.15, name='SoilProbe_1 temperature (C)'), secondary_y=False)
-    fig.add_trace(go.Scatter(x=df.index, y=df[col_name8]-273.15, name='SoilProbe_2 temperature (C)'), secondary_y=False)    
-    fig.add_trace(go.Scatter(x=df.index, y=df[col_name9]-273.15, name='SoilProbe_3 temperature (C)'), secondary_y=False)
+    fig.add_trace(go.Scatter(x=df.index, y=clean_column(df,col_name7,window=48)-273.15, name='SoilProbe_1 temperature (C)'), secondary_y=False)
+    fig.add_trace(go.Scatter(x=df.index, y=clean_column(df,col_name8,window=48)-273.15, name='SoilProbe_2 temperature (C)'), secondary_y=False)    
+    fig.add_trace(go.Scatter(x=df.index, y=clean_column(df,col_name9,window=48)-273.15, name='SoilProbe_3 temperature (C)'), secondary_y=False)
 
     fig.add_trace(go.Scatter(x=df.index, y=clean_column(df,col_name4), name='Soil Heat Flux 1 (W/m2)'), secondary_y=True)
     fig.add_trace(go.Scatter(x=df.index, y=clean_column(df,col_name5), name='Soil Heat Flux 2 (W/m2)'), secondary_y=True)    
@@ -601,19 +601,19 @@ def plot_hydra_probe_temperatures(df):
         df.index,
         clean_column(df, col_name4) - 273.15,
         linewidth=1,
-        label="TS_4_1_1 (C)",
+        label="TS_4_1_1 (C)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name5) - 273.15,
         linewidth=1,
-        label="TS_5_1_1 (C)",
+        label="TS_5_1_1 (C)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name6) - 273.15,
         linewidth=1,
-        label="TS_6_1_1 (C)",
+        label="TS_6_1_1 (C)", marker='o', markersize=1
     )
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
@@ -637,19 +637,19 @@ def plot_temperature_probe(df):
         df.index,
         clean_column(df, col_name1) - 273.15,
         linewidth=1,
-        label="TS_7_1_1 (C)",
+        label="TS_7_1_1 (C)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name2) - 273.15,
         linewidth=1,
-        label="TS_8_1_1 (C)",
+        label="TS_8_1_1 (C)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name3) - 273.15,
         linewidth=1,
-        label="TS_9_1_1 (C)",
+        label="TS_9_1_1 (C)", marker='o', markersize=1
     )
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
@@ -673,7 +673,7 @@ def plot_ppdf_swin(df):
         clean_column(df, col_name1) * 0.51,
         color="red",
         linewidth=1,
-        label="PPFD (factor= 0.5100) (W/m2",
+        label="PPFD (factor= 0.5100) (W/m2", marker='o', markersize=1
     )
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
@@ -683,7 +683,7 @@ def plot_ppdf_swin(df):
         clean_column(df, col_name2),
         color="blue",
         linewidth=1,
-        label="SWIN (W/m2)",
+        label="SWIN (W/m2)", marker='o', markersize=1
     )
     ax.set_xlim(date_range)
     ax.set_ylim(-25, 1100)
@@ -705,25 +705,25 @@ def plot_solar_components(df):
         df.index,
         clean_column(df, col_name1),
         linewidth=1,
-        label="SWIN (W/m2)",
+        label="SWIN (W/m2)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name2),
         linewidth=1,
-        label="SWOUT (W/m2)",
+        label="SWOUT (W/m2)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name3),
         linewidth=1,
-        label="LWIN (W/m2)",
+        label="LWIN (W/m2)", marker='o', markersize=1
     )
     ax.plot(
         df.index,
         clean_column(df, col_name4),
         linewidth=1,
-        label="LWOUT (W/m2)",
+        label="LWOUT (W/m2)", marker='o', markersize=1
     )
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
@@ -805,7 +805,7 @@ def plot_co2_comparision(df):
         clean_column(df, col_name1),
         color="red",
         linewidth=1,
-        label="LI-7500 CO2 molar density mmol/m3",
+        label="LI-7500 CO2 molar density mmol/m3", marker='o', markersize=1
     )
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
@@ -815,7 +815,7 @@ def plot_co2_comparision(df):
         CO2NumberDensity,
         color="blue",
         linewidth=1,
-        label="Estimated CO2 number density mmol/m3",
+        label="Estimated CO2 number density mmol/m3", marker='o', markersize=1
     )
     ax.set_xlim(date_range)
     plt.xticks(rotation=45, ha="right")
@@ -895,7 +895,9 @@ dbPath = f"{script_path}/Data/{str(selceted_site)}/summaries/{str(selceted_site)
 merged_df = get_db(dbPath)
 start_date = merged_df.index.values[0]
 data_max_date = merged_df.index.values[-1]
-end_date = np.datetime64('now')
+today = datetime.now().date()
+today_end = today + timedelta(days=1)
+end_date = np.datetime64(today_end)
 limit_date = end_date - pd.Timedelta(days=days_limit)
 
 if data_max_date<limit_date:
