@@ -374,6 +374,7 @@ def plot_RH(df):
     )
     ax.legend(loc="lower left")
     ax.set_ylim(0,105)
+    ax.invert_yaxis()
     ax.grid(True)
     st.pyplot(fig)
     plt.close()
