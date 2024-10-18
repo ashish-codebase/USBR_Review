@@ -125,7 +125,7 @@ st.text("")
 st.text("")
 
 
-def clean_column(df, col_name, window=13, threshold=2.5):
+def clean_column(df, col_name, window=24, threshold=2.5):
     if col_name == "P_RAIN_1_1_1":
         return df
     try:
