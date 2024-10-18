@@ -865,7 +865,7 @@ def wind_rose(df):
             string2 = ": Nearest weatherstation."
             st.markdown(f"{string1}{string2}")
             relative_path = update_summaries.windroses[f"{selceted_site}"]
-            wind_rose_path = f"{script_path}\{relative_path}"
+            wind_rose_path = f"{script_path}\\{relative_path}"
             wind_rose_path = wind_rose_path.replace("\\", "/")
             image = Image.open(wind_rose_path)
 
