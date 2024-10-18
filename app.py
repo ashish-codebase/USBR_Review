@@ -621,7 +621,7 @@ def plot_hydra_probe_temperatures(df):
     plt.xticks(rotation=45, ha="right")
     ax.set_xlim(date_range)
     ax.set_ylim(0, 25)
-    ax.set_title(f"{selceted_site_bold}: Soil temperature from all hydra probes.")
+    ax.set_title(f"{selceted_site_bold}: Soil temperatures from hydra probes at 20, 40 & 60 cm depths.")
     ax.legend(loc="lower left")
     ax.grid(True)
     st.pyplot(fig)
