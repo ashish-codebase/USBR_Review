@@ -127,7 +127,10 @@ st.text("")
 
 def clean_column(df, col_name, window=24, threshold=2.5):
     if col_name == "P_RAIN_1_1_1":
-        return df
+        return df[col_name]
+    if df[col_name].isnull().all():
+        df[col_name]  = np.nan
+        return df[col_name]
     try:
         rolling_median = df[col_name].rolling(window=window, center=True).median()
         rolling_std = df[col_name].rolling(window=window, center=True).std()
@@ -384,6 +387,8 @@ def plot_co2signal(df):
     col_name = "co2_signal_strength_7500_mean"
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(df.index, clean_column(df, col_name), linewidth=1, marker='o', markersize=0.5)
+    # bar_width = np.clip((0.0023 * df.shape[0] + 0.0204), 0.025, 0.2)
+    
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))
@@ -401,7 +406,9 @@ def plot_bowen_ratio(df):
     df = df[(df["daytime"] > 0)]
     fig, ax = plt.subplots(figsize=plot_size)
     ax.plot(df.index, np.zeros(df.shape[0]), linewidth=2, color="gray")
-    ax.plot(df.index, clean_column(df, col_name,window=5), linewidth=1, marker='o', markersize=0.5)
+    bar_width = np.clip((0.00001 * df.shape[0] + 0.0204), 0.002, 0.2)
+    ax.bar(df.index, clean_column(df, col_name), width = bar_width)
+    # ax.plot(df.index, clean_column(df, col_name,window=5), linewidth=1, marker='o', markersize=0.5)
 
     ax.xaxis.set_major_locator(mdates.DayLocator(interval=ticks))
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d-%y"))

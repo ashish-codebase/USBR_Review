@@ -109,6 +109,13 @@ satellite_images = {
     "FtBridger":r"Data/SatelliteImage/FtBridger.jpg"
 }
 
+def fill_nans(df):
+    for col_name in df.columns:
+        if df[col_name].isnull().all():
+            print("all values NAN in ", col_name)
+            df[col_name]  = np.nan
+    return df
+
 def rn_time_lag(df: pd.DataFrame):
     df['RN_1_1_1'] = df['SWIN_1_1_1'] - df['SWOUT_1_1_1'] + df['LWIN_1_1_1'] - df['LWOUT_1_1_1'].shift(-2)
     df['LWOUT_1_1_1'] = df['LWOUT_1_1_1'].shift(-2)
@@ -132,6 +139,7 @@ def get_dataframe(filePath):
         if not column in df.columns:
             df[column]=np.nan
     df.drop(columns=["date", "time"], inplace=True)
+    df = fill_nans(df)
     return df
 
 def read_db(selected_site):
@@ -171,12 +179,13 @@ def read_db(selected_site):
 
         merged_df.sort_index(inplace=True)
         merged_df.drop_duplicates(inplace=True)
+        merged_df = fill_nans(merged_df)
         # merged_df =rn_time_lag(merged_df)
         conn = sqlite3.connect(db_path)
         merged_df.to_sql(name="summary", con=conn, if_exists="replace", index=True)
         # Close the connection
         conn.close()
-        merged_df = pd.DataFrame()
+        merged_df = merged_df.iloc[0:0]
         
 def main():
     for selected_site in sites:
