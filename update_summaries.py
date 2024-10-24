@@ -112,7 +112,7 @@ satellite_images = {
 def fill_nans(df):
     for col_name in df.columns:
         if df[col_name].isnull().all():
-            print("all values NAN in ", col_name)
+            # print("all values NAN in ", col_name)
             df[col_name]  = np.nan
     return df
 
@@ -145,7 +145,8 @@ def get_dataframe(filePath):
 def read_db(selected_site):
     # selected_site = sites[10]
     todaysDate = datetime.datetime.today().date()
-    main_path = r"D:\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
+    # main_path = r"D:\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
+    main_path = r"C:\Users\ashish\OneDrive - University of Nebraska-Lincoln\UNL\All EC Tower Data"
     script_path = os.getcwd()
     db_path = f"{script_path}/Data/{selected_site}/summaries/{selected_site}.db"
     # print(f"DB path string {db_path}")    

@@ -141,7 +141,8 @@ def clean_column(df, col_name, window=24, threshold=2.5):
         df_cleaned.loc[outliers, col_name] = np.nan
         return df_cleaned[col_name]
     
-    except:
+    except Exception as ex:
+        print(ex)
         return df[col_name]
 
 def plot_et(df):
