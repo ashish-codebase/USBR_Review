@@ -778,7 +778,7 @@ def plot_RH(df):
 
         selceted_site_bold
 
-        + ": Relative humidity from Vaisala (2m) and gas analyzer (3m-4m)."
+        + ": Relative humidity from Vaisala (2 meters) and gas analyzer (3-4 meters)."
     )
 
     ax.legend(loc="lower left")
