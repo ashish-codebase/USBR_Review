@@ -4,6 +4,7 @@ import os
 import sqlite3
 import time
 from datetime import datetime
+import shutil
 
 # import matplotlib.pyplot as plt
 
@@ -298,6 +299,8 @@ class GenerateData:
             merged_df.to_sql(site, db_connection, if_exists="replace", index=True)
 
             db_connection.close()
+            shutil.copy(db_path, r'D:\OneDrive - University of Nebraska-Lincoln\UNL\StreamlitProjects\FastHTML_Project\static\data')
+
 
     def get_dataframe(self, daqm_path):
 
