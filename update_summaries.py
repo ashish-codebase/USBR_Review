@@ -1,4 +1,5 @@
 from Read_DAQM import GenerateData
 
-GenerateData()
+obj = GenerateData()
+obj.execute()
 
