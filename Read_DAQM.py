@@ -156,6 +156,7 @@ class GenerateData:
 
         "FtBridger",
 
+        "Farson",
         ]
 
     windroses = {
