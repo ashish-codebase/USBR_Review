@@ -306,9 +306,12 @@ class GenerateData:
 
         df = pd.read_csv(daqm_path, sep='\t', skiprows=[1])
 
-
-        df['DateTime'] = pd.to_datetime(df['DATE'] + ' ' + df['TIME'], format='%Y-%m-%d %H:%M:%S')
-
+        try:
+            df['DateTime'] = pd.to_datetime(df['DATE'] + ' ' + df['TIME'], format='%Y-%m-%d %H:%M:%S')
+        except Exception as ex:
+            print(f"Error parsing date in {daqm_path}: {ex}")
+            return pd.DataFrame()
+        
         df_year = df['DateTime'].min().date().year
         
         min_year = datetime.today().year-2
