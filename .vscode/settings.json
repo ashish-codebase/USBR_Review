@@ -1,0 +1,5 @@
+{
+    "python.analysis.typeCheckingMode": "basic",
+    "python.languageServer": "Pylance",
+    "python.defaultInterpreterPath": "C:\\WinPy313\\WPy64-31350\\python\\python.exe"
+}
