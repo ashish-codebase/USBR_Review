@@ -1,0 +1,12 @@
+matplotlib
+numpy
+pandas
+pyarrow
+streamlit
+scipy
+scikit-learn
+windrose
+plotly
+tqdm
+pytz
+refet
